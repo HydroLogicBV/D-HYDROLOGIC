@@ -1,0 +1,10 @@
+# Table of contents
+
+format: jb-book
+root: intro
+parts:
+  - caption: Hisreader
+    chapters:
+    - file: hisreader_usage
+    - file: hisreader_source
+

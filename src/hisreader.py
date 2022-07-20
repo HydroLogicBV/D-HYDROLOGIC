@@ -231,9 +231,10 @@ class HisResults(object):
                         output_path + "\\" + struct_name + r"_measured.csv"
                     )
         else:
-            print(self.__dict__.keys())
+            print("CSV saved for the following objects:")
             for key in self.__dict__.keys():
                 if hasattr(getattr(self, key), "simulated"):
+                    print(key)
                     structure = getattr(self, key)
                     structure.simulated.to_csv(
                         output_path + "\\" + key + r"_simulated.csv"
