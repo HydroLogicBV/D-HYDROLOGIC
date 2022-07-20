@@ -47,6 +47,3 @@ getattr(Results, obj_name).simulated_plot("waterlevel")
 
 Results.write_csv(output_path = input_path + r"\csv\\")
 
-
-# There is a lot more that you can do with outputs (such as including interactive outputs)
-# with your book. For more information about this, see [the Jupyter Book documentation](https://jupyterbook.org)
