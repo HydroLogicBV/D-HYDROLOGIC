@@ -16,7 +16,7 @@ ipython_config.py
 *.csv
 
 # build foler
-build/
+build_tool/
 
 # runtime files
 **/__pycache__/
