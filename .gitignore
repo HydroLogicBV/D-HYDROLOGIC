@@ -18,9 +18,6 @@ ipython_config.py
 # build foler
 build_tool/
 
-# runtime files
-**/__pycache__/
-
 #
 .jupyter_cache/
 
