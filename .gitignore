@@ -27,6 +27,8 @@ build_tool/
 #
 jupyter_execute/
 
+#
+src/
 
 
 # Remove previous ipynb_checkpoints
