@@ -12,17 +12,20 @@
 profile_default/
 ipython_config.py
 
-# build foler
-build/
-
 # CSV
 *.csv
 
+# build foler
+build/
+
 # runtime files
-src/__pycache__/
+**/__pycache__/
+
+#
 .jupyter_cache/
+
+#
 jupyter_execute/
-jupyter_book/
 
 
 
