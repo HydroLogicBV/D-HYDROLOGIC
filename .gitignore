@@ -18,8 +18,13 @@ build/
 # CSV
 *.csv
 
-# runtime file
+# runtime files
 src/__pycache__/
+.jupyter_cache/
+jupyter_execute/
+jupyter_book/
+
+
 
 # Remove previous ipynb_checkpoints
 #   git rm -r .ipynb_checkpoints/
