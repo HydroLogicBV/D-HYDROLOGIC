@@ -318,12 +318,41 @@ title="Print to PDF"
     </ul>
   </div>
 </div>
+<label for="__page-toc"
+  class="headerbtn headerbtn-page-toc"
+  
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-list"></i>
+  </span>
+
+</label>
 
     </div>
 </div>
 
 <!-- Table of contents -->
 <div class="col-md-3 bd-toc show noprint">
+    <div class="tocsection onthispage pt-5 pb-3">
+        <i class="fas fa-list"></i> Contents
+    </div>
+    <nav id="bd-toc-nav" aria-label="Page">
+        <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#data-reading-functions">
+   Data reading functions
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#raster-functions">
+   Raster functions
+  </a>
+ </li>
+</ul>
+
+    </nav>
 </div>
     </div>
     <div class="article row">
@@ -335,6 +364,24 @@ title="Print to PDF"
                 <div id="print-main-content">
                     <div id="jb-print-toc">
                         
+                        <div>
+                            <h2> Contents </h2>
+                        </div>
+                        <nav aria-label="Page">
+                            <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#data-reading-functions">
+   Data reading functions
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#raster-functions">
+   Raster functions
+  </a>
+ </li>
+</ul>
+
+                        </nav>
                     </div>
                 </div>
             </div>
@@ -344,6 +391,8 @@ title="Print to PDF"
                 
   <section id="flowmeshreader-api-doc">
 <h1>Flowmeshreader api-doc<a class="headerlink" href="#flowmeshreader-api-doc" title="Permalink to this headline">#</a></h1>
+<section id="data-reading-functions">
+<h2>Data reading functions<a class="headerlink" href="#data-reading-functions" title="Permalink to this headline">#</a></h2>
 <dl class="py function">
 <dt class="sig sig-object py" id="flowmeshreader.load_mesh">
 <span class="sig-prename descclassname"><span class="pre">flowmeshreader.</span></span><span class="sig-name descname"><span class="pre">load_mesh</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input_file_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">numpy.ndarray</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">numpy.ndarray</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/flowmeshreader.html#load_mesh"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#flowmeshreader.load_mesh" title="Permalink to this definition">#</a></dt>
@@ -449,6 +498,9 @@ map_data (np.ndarray): filled classmap data at the mesh nodes, using class defin
 </dl>
 </dd></dl>
 
+</section>
+<section id="raster-functions">
+<h2>Raster functions<a class="headerlink" href="#raster-functions" title="Permalink to this headline">#</a></h2>
 <dl class="py function">
 <dt class="sig sig-object py" id="flowmeshreader.create_raster">
 <span class="sig-prename descclassname"><span class="pre">flowmeshreader.</span></span><span class="sig-name descname"><span class="pre">create_raster</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">node_x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">node_y</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">resolution</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">numpy.ndarray</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">numpy.ndarray</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">numpy.ndarray</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/flowmeshreader.html#create_raster"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#flowmeshreader.create_raster" title="Permalink to this definition">#</a></dt>
@@ -554,6 +606,7 @@ new_grid_data (np.ndarray): new_grid_data</p>
 </dl>
 </dd></dl>
 
+</section>
 </section>
 
     <script type="text/x-thebe-config">
