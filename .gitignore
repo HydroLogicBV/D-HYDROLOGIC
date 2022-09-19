@@ -15,6 +15,9 @@ ipython_config.py
 # CSV
 *.csv
 
+# TIFF
+*.tiff
+
 # build foler
 build_tool/
 
@@ -26,6 +29,9 @@ jupyter_execute/
 
 #
 src/
+
+#
+data/
 
 
 # Remove previous ipynb_checkpoints

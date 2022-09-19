@@ -132,35 +132,55 @@ const thebe_selector_output = ".output, .cell_output"
 </ul>
 <p aria-level="2" class="caption" role="heading">
  <span class="caption-text">
-  Flowmeshreader
+  Inundation toolbox
  </span>
 </p>
 <ul class="nav bd-sidenav">
- <li class="toctree-l1">
-  <a class="reference internal" href="flowmeshreader.html">
+ <li class="toctree-l1 has-children">
+  <a class="reference internal" href="inundationtoolbox.html">
    Usage
+  </a>
+  <input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/>
+  <label for="toctree-checkbox-1">
+   <i class="fas fa-chevron-down">
+   </i>
+  </label>
+  <ul>
+   <li class="toctree-l2">
+    <a class="reference internal" href="clm_example_tol.html">
+     Example for reading clm-file for example Tol
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="fou_example_tol.html">
+     Example for reading fou-file for example Tol
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="map_example_tol.html">
+     Example for reading map-file for example Tol
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="clm_example_zwolle.html">
+     Example for reading clm-file for example Zwolle
+    </a>
+   </li>
+   <li class="toctree-l2">
+    <a class="reference internal" href="fou_example_zwolle.html">
+     Example for reading fou-file for example Zwolle
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="inundationtoolbox_api.html">
+   Inundation toolbox api-doc
   </a>
  </li>
  <li class="toctree-l1">
   <a class="reference internal" href="flowmeshreader_api.html">
    Flowmeshreader api-doc
-  </a>
- </li>
-</ul>
-<p aria-level="2" class="caption" role="heading">
- <span class="caption-text">
-  Inundation toolbox
- </span>
-</p>
-<ul class="nav bd-sidenav">
- <li class="toctree-l1">
-  <a class="reference internal" href="inundationtoolbox.html">
-   Usage
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="inundationtoolbox_api.html">
-   Inundation toolbox api-doc
   </a>
  </li>
 </ul>
@@ -222,7 +242,7 @@ title="Toggle navigation"
   <div class="menu-dropdown__content">
     <ul>
       <li>
-        <a href="https://mybinder.org/v2/gh/executablebooks/jupyter-book/master?urlpath=tree/docs/hisreader_usage.ipynb"
+        <a href="https://mybinder.org/v2/gh/HydroLogicBV/D-HYDROLOGIC/main?urlpath=tree/jupyter_book/hisreader_usage.ipynb"
    class="headerbtn"
    data-toggle="tooltip"
 data-placement="left"
@@ -265,7 +285,7 @@ title="Fullscreen mode"
   <div class="menu-dropdown__content">
     <ul>
       <li>
-        <a href="https://github.com/executablebooks/jupyter-book"
+        <a href="https://github.com/HydroLogicBV/D-HYDROLOGIC/"
    class="headerbtn"
    data-toggle="tooltip"
 data-placement="left"
@@ -282,7 +302,7 @@ title="Source repository"
       </li>
       
       <li>
-        <a href="https://github.com/executablebooks/jupyter-book/issues/new?title=Issue%20on%20page%20%2Fhisreader_usage.html&body=Your%20issue%20content%20here."
+        <a href="https://github.com/HydroLogicBV/D-HYDROLOGIC//issues/new?title=Issue%20on%20page%20%2Fhisreader_usage.html&body=Your%20issue%20content%20here."
    class="headerbtn"
    data-toggle="tooltip"
 data-placement="left"
@@ -379,11 +399,6 @@ title="Print to PDF"
    Load results
   </a>
  </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#save-results-as-csv-files">
-   Save results as csv files
-  </a>
- </li>
 </ul>
 
     </nav>
@@ -413,11 +428,6 @@ title="Print to PDF"
    Load results
   </a>
  </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#save-results-as-csv-files">
-   Save results as csv files
-  </a>
- </li>
 </ul>
 
                         </nav>
@@ -438,8 +448,10 @@ Advanced usage allows the direct processing of the results, e.g. to combine simu
 <p>Add hisreader to path and import HisResults</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">sys</span>  
-<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;D:\Work\git\D-HYDROLOGIC\src&#39;</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">sys</span>  
+<span class="n">currentdir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">())</span>
+<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">currentdir</span> <span class="o">+</span> <span class="s2">&quot;/HydroLogic_Inundation_toolbox/Readers&quot;</span><span class="p">)</span>
 <span class="kn">from</span> <span class="nn">hisreader</span> <span class="kn">import</span> <span class="n">HisResults</span>
 </pre></div>
 </div>
@@ -448,198 +460,23 @@ Advanced usage allows the direct processing of the results, e.g. to combine simu
 </section>
 <section id="load-results">
 <h2>Load results<a class="headerlink" href="#load-results" title="Permalink to this headline">#</a></h2>
-<p>Load example model reults and make a quick plot to inspect the data for a measurement station (WS000369 in this case).</p>
+<p>Load example model reults and make a quick plot to inspect the data for a measurement station.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">input_path</span> <span class="o">=</span> <span class="sa">r</span><span class="s2">&quot;D:\Work\git\D-HYDROLOGIC\data</span><span class="se">\\</span><span class="s2">&quot;</span>
-<span class="n">Results</span> <span class="o">=</span> <span class="n">HisResults</span><span class="p">(</span><span class="n">inputdir</span><span class="o">=</span><span class="n">input_path</span><span class="p">,</span> <span class="n">outputdir</span><span class="o">=</span><span class="n">input_path</span> <span class="o">+</span> <span class="sa">r</span><span class="s2">&quot;\csv</span><span class="se">\\</span><span class="s2">&quot;</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">input_path</span> <span class="o">=</span> <span class="n">currentdir</span> <span class="o">+</span> <span class="s2">&quot;/HydroLogic_Inundation_toolbox/Data/Tol/input/&quot;</span>
+<span class="n">Results</span> <span class="o">=</span> <span class="n">HisResults</span><span class="p">(</span><span class="n">inputdir</span><span class="o">=</span><span class="n">input_path</span><span class="p">,</span> <span class="n">outputdir</span><span class="o">=</span><span class="n">input_path</span> <span class="o">+</span> <span class="sa">r</span><span class="s2">&quot;/csv/&quot;</span><span class="p">)</span>
 
-<span class="n">Results</span><span class="o">.</span><span class="n">WS000369</span><span class="o">.</span><span class="n">simulated_plot</span><span class="p">(</span><span class="s2">&quot;waterlevel&quot;</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<img alt="_images/hisreader_usage_4_0.png" src="_images/hisreader_usage_4_0.png" />
-</div>
-</div>
-<p>It is also possible to load station names programatically, usefull if you for example want plots for all observation stations.</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">obj_name</span> <span class="o">=</span> <span class="n">Results</span><span class="o">.</span><span class="n">structure_list</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">obj_name</span> <span class="o">=</span> <span class="n">Results</span><span class="o">.</span><span class="n">structure_list</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">obj_name</span><span class="p">)</span>
 <span class="nb">getattr</span><span class="p">(</span><span class="n">Results</span><span class="p">,</span> <span class="n">obj_name</span><span class="p">)</span><span class="o">.</span><span class="n">simulated_plot</span><span class="p">(</span><span class="s2">&quot;waterlevel&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>WS000369
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Spoor kruising
 </pre></div>
 </div>
-<img alt="_images/hisreader_usage_6_1.png" src="_images/hisreader_usage_6_1.png" />
-</div>
-</div>
-</section>
-<section id="save-results-as-csv-files">
-<h2>Save results as csv files<a class="headerlink" href="#save-results-as-csv-files" title="Permalink to this headline">#</a></h2>
-<p>providing an <em>output_path</em> is optional, otherwise it will use the path provided before</p>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">Results</span><span class="o">.</span><span class="n">write_csv</span><span class="p">(</span><span class="n">output_path</span> <span class="o">=</span> <span class="n">input_path</span> <span class="o">+</span> <span class="sa">r</span><span class="s2">&quot;\csv</span><span class="se">\\</span><span class="s2">&quot;</span><span class="p">)</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>CSV saved for the following objects:
-WS000369
-WS000365
-WS000371
-SL000346
-Munnikenbeek
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>SL000551
-LunterseBeek
-WS000678
-Nederwoudse Beek
-Lunterse Beek BOV
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>WS000367
-WS000726
-KST-1411
-KST-1435
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>KST-4022
-KST-3524
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>KST-4325
-KST-3194
-KST-4324
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>KST-1410
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>KST-1412
-KST-1421
-KST-1405
-KST-2492
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>KST-4306
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>KST-4314
-KST-4307
-KST-4310
-KST-4308
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>KST-1452
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>KST-1422
-KST-4311
-KST-1407
-KST-1464
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>KST-1429
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>KST-1425
-KST-1401
-KST-4254
-KST-1417
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>KST-4485
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>KST-4483
-KST-4484
-KST-4486
-KST-4487
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>KST-4488
-KST-4489
-KST-4490
-KST-1419
-KST-1414
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>KST-1465
-KST-4251
-KST-1423
-KST-1433
-KST-1451
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>KST-4021
-KST-1406
-KST-1447
-KST-1456
-KST-1437
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>KST-1424
-KST-1436
-KST-1467
-KST-4322
-KST-1416
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>KST-1446
-KST-1449
-KST-3523
-KST-1453
-KST-4338
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>KST-1408
-KST-4491
-KST-813
-KST-4253
-KST-4250
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>KST-1418
-KST-1402
-KST-1415
-KST-1400
-KST-1445
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>KST-1404
-KST-1403
-KST-1413
-KST-4323
-KST-1459
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>KST-1463
-KST-1450
-KST-1432
-KST-3138
-KST-1428
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>KST-3136
-KST-3137
-KST-1460
-KST-811
-KST-3525
-</pre></div>
-</div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>KST-1444_2D
-KST-1448_2D
-KST-1454_2D
-KST-1455_2D
-</pre></div>
-</div>
+<img alt="_images/hisreader_usage_4_1.png" src="_images/hisreader_usage_4_1.png" />
 </div>
 </div>
 </section>

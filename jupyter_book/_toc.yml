@@ -7,14 +7,16 @@ parts:
     chapters:
     - file: hisreader_usage
     - file: hisreader_api
-  
-  - caption: Flowmeshreader
-    chapters:
-    - file: flowmeshreader
-    - file: flowmeshreader_api
-  
+   
   - caption: Inundation toolbox
     chapters:
     - file: inundationtoolbox
+      sections:
+      - file: clm_example_tol
+      - file: fou_example_tol
+      - file: map_example_tol
+      - file: clm_example_zwolle
+      - file: fou_example_zwolle
+        
     - file: inundationtoolbox_api
-
+    - file: flowmeshreader_api
