@@ -1,0 +1,11 @@
+name: inundation_toolbox
+dependencies:
+  - python=3.10
+  - GDAL==3.4.3
+  - matplotlib
+  - netCDF4
+  - numpy
+  - pydantic
+  - rasterio==1.2.10
+  - scipy
+  - ugrid

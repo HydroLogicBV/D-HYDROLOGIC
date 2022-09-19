@@ -1,9 +1,7 @@
 # -*- coding: utf-8 -*-
-"""
-Created on Fri May 13th 2022
+#Created on Fri May 13th 2022
 
-@author: Koen Reef Hydrologic
-"""
+#@author: Koen Reef Hydrologic
 
 # =============================================================================
 # Import
@@ -20,21 +18,7 @@ from typing import Optional, List, Type, TypeVar
 PandasDataFrame = TypeVar("pandas.core.frame.DataFrame")
 STRUCTURE_TYPES = ["station", "weirgen"]
 
-"""============================================================================
-Provides
-    1. Creates an object to convert variables from the his netcdf output files
-    from the D-Hydro model (...his.nc) into python objects
-    Use: HisResults(inputdir, outputdir)
-        Parameters
-        ----------
-        inputdir : absolute windows directory path to the ...his.nc D-Hydro output file
-        outputdir  : absolute windows directory path to the location newly
-        created csv files
 
-        Returns
-        -------
-        HisResults object with lists of objects retrieved from his file
-==========================================================================="""
 
 
 class ExtStructure(BaseModel):
@@ -72,6 +56,21 @@ class ExtStructure(BaseModel):
 
 
 class HisResults(object):
+    """
+    Provides
+        1. Creates an object to convert variables from the his netcdf output files
+        from the D-Hydro model (...his.nc) into python objects
+        Use: HisResults(inputdir, outputdir)
+            Parameters
+            
+            inputdir : absolute windows directory path to the ...his.nc D-Hydro output file
+            outputdir  : absolute windows directory path to the location newly
+            created csv files
+
+            Returns
+            
+            HisResults object with lists of objects retrieved from his file
+    """
     def __init__(
         self, inputdir: str, outputdir: str, structure_types: List = None
     ) -> None:

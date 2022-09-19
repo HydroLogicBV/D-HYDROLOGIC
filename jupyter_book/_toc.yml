@@ -6,5 +6,15 @@ parts:
   - caption: Hisreader
     chapters:
     - file: hisreader_usage
-    - file: hisreader_source
+    - file: hisreader_api
+  
+  - caption: Flowmeshreader
+    chapters:
+    - file: flowmeshreader
+    - file: flowmeshreader_api
+  
+  - caption: Inundation toolbox
+    chapters:
+    - file: inundationtoolbox
+    - file: inundationtoolbox_api
 

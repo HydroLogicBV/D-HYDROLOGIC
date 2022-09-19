@@ -21,7 +21,7 @@
     href="_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
 
     <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
-    <link rel="stylesheet" href="_static/styles/sphinx-book-theme.css?digest=62ba249389abaaa9ffc34bf36a076bdc1d65ee18" type="text/css" />
+    <link rel="stylesheet" href="_static/styles/sphinx-book-theme.css?digest=5115cc725059bd94278eecd172e13a965bf8f5a9" type="text/css" />
     <link rel="stylesheet" type="text/css" href="_static/togglebutton.css" />
     <link rel="stylesheet" type="text/css" href="_static/copybutton.css" />
     <link rel="stylesheet" type="text/css" href="_static/mystnb.css" />
@@ -37,7 +37,7 @@
     <script src="_static/doctools.js"></script>
     <script src="_static/clipboard.min.js"></script>
     <script src="_static/copybutton.js"></script>
-    <script src="_static/scripts/sphinx-book-theme.js?digest=f31d14ad54b65d19161ba51d4ffff3a77ae00456"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?digest=9c920249402e914e316237a7dbc6769907cce411"></script>
     <script>let toggleHintShow = 'Click to show';</script>
     <script>let toggleHintHide = 'Click to hide';</script>
     <script>let toggleOpenOnPrint = 'true';</script>
@@ -52,7 +52,6 @@ const thebe_selector_output = ".output, .cell_output"
     <script async="async" src="_static/sphinx-thebe.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="prev" title="Usage" href="hisreader_usage.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="None">
     
@@ -117,15 +116,49 @@ const thebe_selector_output = ".output, .cell_output"
   Hisreader
  </span>
 </p>
-<ul class="current nav bd-sidenav">
+<ul class="nav bd-sidenav">
  <li class="toctree-l1">
   <a class="reference internal" href="hisreader_usage.html">
    Usage
   </a>
  </li>
- <li class="toctree-l1 current active">
-  <a class="current reference internal" href="#">
-   Python sourcecode
+ <li class="toctree-l1">
+  <a class="reference internal" href="hisreader_api.html">
+   Hisreader api-doc
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Flowmeshreader
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="flowmeshreader.html">
+   Flowmeshreader
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="flowmeshreader_api.html">
+   Flowmeshreader api-doc
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  Inundation toolbox
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="inundationtoolbox.html">
+   Inundationtoolbox
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="inundationtoolbox_api.html">
+   Inundation toolbox api-doc
   </a>
  </li>
 </ul>
@@ -310,11 +343,9 @@ title="Print to PDF"
   <section id="python-sourcecode">
 <h1>Python sourcecode<a class="headerlink" href="#python-sourcecode" title="Permalink to this headline">#</a></h1>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># -*- coding: utf-8 -*-</span>
-<span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">Created on Fri May 13th 2022</span>
+<span class="c1">#Created on Fri May 13th 2022</span>
 
-<span class="sd">@author: Koen Reef Hydrologic</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="c1">#@author: Koen Reef Hydrologic</span>
 
 <span class="c1"># =============================================================================</span>
 <span class="c1"># Import</span>
@@ -331,21 +362,7 @@ title="Print to PDF"
 <span class="n">PandasDataFrame</span> <span class="o">=</span> <span class="n">TypeVar</span><span class="p">(</span><span class="s2">&quot;pandas.core.frame.DataFrame&quot;</span><span class="p">)</span>
 <span class="n">STRUCTURE_TYPES</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;station&quot;</span><span class="p">,</span> <span class="s2">&quot;weirgen&quot;</span><span class="p">]</span>
 
-<span class="sd">&quot;&quot;&quot;============================================================================</span>
-<span class="sd">Provides</span>
-<span class="sd">    1. Creates an object to convert variables from the his netcdf output files</span>
-<span class="sd">    from the D-Hydro model (...his.nc) into python objects</span>
-<span class="sd">    Use: HisResults(inputdir, outputdir)</span>
-<span class="sd">        Parameters</span>
-<span class="sd">        ----------</span>
-<span class="sd">        inputdir : absolute windows directory path to the ...his.nc D-Hydro output file</span>
-<span class="sd">        outputdir  : absolute windows directory path to the location newly</span>
-<span class="sd">        created csv files</span>
 
-<span class="sd">        Returns</span>
-<span class="sd">        -------</span>
-<span class="sd">        HisResults object with lists of objects retrieved from his file</span>
-<span class="sd">===========================================================================&quot;&quot;&quot;</span>
 
 
 <span class="k">class</span> <span class="nc">ExtStructure</span><span class="p">(</span><span class="n">BaseModel</span><span class="p">):</span>
@@ -383,6 +400,21 @@ title="Print to PDF"
 
 
 <span class="k">class</span> <span class="nc">HisResults</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Provides</span>
+<span class="sd">        1. Creates an object to convert variables from the his netcdf output files</span>
+<span class="sd">        from the D-Hydro model (...his.nc) into python objects</span>
+<span class="sd">        Use: HisResults(inputdir, outputdir)</span>
+<span class="sd">            Parameters</span>
+<span class="sd">            </span>
+<span class="sd">            inputdir : absolute windows directory path to the ...his.nc D-Hydro output file</span>
+<span class="sd">            outputdir  : absolute windows directory path to the location newly</span>
+<span class="sd">            created csv files</span>
+
+<span class="sd">            Returns</span>
+<span class="sd">            </span>
+<span class="sd">            HisResults object with lists of objects retrieved from his file</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">inputdir</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">outputdir</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">structure_types</span><span class="p">:</span> <span class="n">List</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
@@ -585,13 +617,6 @@ title="Print to PDF"
                 
     <!-- Previous / next buttons -->
 <div class='prev-next-area'>
-    <a class='left-prev' id="prev-link" href="hisreader_usage.html" title="previous page">
-        <i class="fas fa-angle-left"></i>
-        <div class="prev-next-info">
-            <p class="prev-next-subtitle">previous</p>
-            <p class="prev-next-title">Usage</p>
-        </div>
-    </a>
 </div>
             </footer>
         </div>
