@@ -8,4 +8,7 @@ dependencies:
   - pydantic
   - rasterio==1.2.10
   - scipy
-  - ugrid
+  - pip
+  - pip:
+    - ugrid
+  
