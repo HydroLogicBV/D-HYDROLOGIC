@@ -5,6 +5,7 @@ dependencies:
   - matplotlib
   - netCDF4
   - numpy
+  - pandas
   - pydantic
   - rasterio==1.2.10
   - scipy
