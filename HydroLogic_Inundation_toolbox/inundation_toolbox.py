@@ -1,51 +1,80 @@
 import numpy as np
 
 
+def arrival_indices(
+    map_data: np.ndarray,
+    arrival_threshold: float = 0.02,
+) -> np.ndarray:
+    """
+    Computes the arrival index. This is the index that water_height >= threshold
+    Works with classmaps and maps, as long as arrival_threshold corresponds to waterdepth (maps) and class (classmap).
+
+    Args:
+        map_data (np.ndarray): map data (time, nodes)
+        arrival_threshold: value >= arrival_threshold there is inundation
+
+    Returns:
+        ix_arrival (np.ndarray): arrival indices
+    """
+
+    # Determine where waterheight >= threshold
+    arrived = map_data >= arrival_threshold
+
+    # Find first time that this is the case
+    indices = np.argmax(arrived, axis=0).astype(float)
+
+    # if never inundated, then nan
+    nevers = np.invert(np.amax(arrived, axis=0))
+
+    indices[nevers] = np.nan
+
+    return indices
+
+
 def arrival_times(
-    clm_data: np.ndarray,
+    map_data: np.ndarray,
     time_step: np.timedelta64,
     time_unit: str = "s",
     arrival_threshold: float = 3,
+    event_start: np.timedelta64 = None,
 ) -> np.ndarray:
     """
-    Computes the arrival times. This is the time-index that water_height >= threshold
+    Computes the arrival times. This is the time-index*time_step that water_height >= threshold
+    Works with classmaps and maps, as long as arrival_threshold corresponds to waterdepth (maps) and class (classmap).
 
     Args:
-        clm_data (np.ndarray): classmap data (time, nodes)
+        map_data (np.ndarray): map data (time, nodes)
         time_step (np.timedelta64): time step between two observations in classmap
         time_unit (str): desired output time format
-        arrival_threshold: class >= arrival_threshold there is inundation
+        arrival_threshold: value >= arrival_threshold there is inundation
 
     Returns:
         t_arrival (np.ndarray): arrival times
     """
 
     # Determine where waterheight >= threshold
-    arrived = clm_data >= arrival_threshold
-
-    # Find first time that this is the case
-    indices = np.argmax(arrived, axis=0).astype(float)
+    indices = arrival_indices(map_data=map_data, arrival_threshold=arrival_threshold)
 
     # Turn indices into time
-    t_arrival = indices * time_step / np.timedelta64(1, time_unit)
+    t_arrival = np.multiply(indices, time_step / np.timedelta64(1, time_unit))
 
-    # if never inundated, then nan
-    nevers = np.invert(np.amax(arrived, axis=0))
-    t_arrival[nevers] = np.nan
+    if event_start is not None:
+        t_arrival -= event_start / np.timedelta64(1, time_unit)
 
     return t_arrival
 
 
 def rising_speeds(
-    map_data: np.ndarray, time_step: np.timedelta64, time_unit: str = "s"
+    map_data: np.ndarray,
+    time_step: np.timedelta64,
+    time_unit: str = "s",
 ) -> np.ndarray:
     """
-    Computes the rising speeds. This is defined as dh/dt between two datapoints
+    Computes the rising speeds. This is defined as dh/dt between two subsequent datapoints
 
     Args:
         map_data (np.ndarray): filled classmap data (time, nodes)
         time_step (np.timedelta64): time step between two observations in classmap
-        time_unit (str): desired output time format
 
     Returns:
         dh_dt (np.ndarray): rising_speeds
@@ -56,6 +85,38 @@ def rising_speeds(
     dh_dt = dh / dt
 
     return dh_dt
+
+
+def rising_speeds_ssm(
+    map_data: np.ndarray,
+    time_step: np.timedelta64,
+    min_h: float = 0.02,
+    max_h=1.5,
+) -> np.ndarray:
+    """
+    Computes the rising speeds. This is defined as dh/dt between two subsequent datapoints
+
+    Args:
+        map_data (np.ndarray): filled classmap data (time, nodes)
+        time_step (np.timedelta64): time step between two observations in classmap
+        min_h (float): minimum depth (m) at which depths are considered
+        max_h (float): maximum depth (m) at which depths are considered
+
+    Returns:
+        dh/dt (np.ndarray): rising_speeds
+    """
+    # TODO allow for more waterlevels than 1.5
+    arrival_ixs = arrival_indices(map_data=map_data, arrival_threshold=min_h)
+    max_h_ixs = arrival_indices(map_data=map_data, arrival_threshold=max_h)
+
+    low_h = np.take_along_axis(map_data, arrival_ixs[np.newaxis, :], axis=0)
+    upp_h = np.take_along_axis(map_data, max_h_ixs[np.newaxis, :], axis=0)
+    dh = upp_h - low_h
+
+    d_ix = max_h_ixs - arrival_ixs
+    dt = d_ix * time_step
+
+    return dh / dt
 
 
 def height_of_mrs(map_data: np.ndarray, dh_dt: np.ndarray) -> np.ndarray:

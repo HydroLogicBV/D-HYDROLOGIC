@@ -12,22 +12,28 @@ from ugrid import UGrid
 
 def load_mesh(input_file_path: str) -> Tuple[np.ndarray, np.ndarray]:
     """
-    Retrieves the mesh nodes x and y-coordinates from the netCDF file at input_file_path
+    Retrieves the mesh nodes faces' x and y-coordinates from the netCDF file at input_file_path
 
     Args:
         input_file_path (str): path to the input file
 
     Returns:
-        node_x (np.ndarray): x-coordinates of the mesh nodes
-        node_y (np.ndarray): y-coordinates of the mesh nodes
+        node_x (np.ndarray): x-coordinates of the mesh nodes faces
+        node_y (np.ndarray): y-coordinates of the mesh nodes faces
     """
-    with UGrid(
-        input_file_path,
-        "r",
-    ) as ug:
+    try:
+        with UGrid(
+            input_file_path,
+            "r",
+        ) as ug:
 
-        node_x = ug.variable_get_data_double(r"Mesh2d_face_x")
-        node_y = ug.variable_get_data_double(r"Mesh2d_face_y")
+            node_x = ug.variable_get_data_double(r"Mesh2d_face_x")
+            node_y = ug.variable_get_data_double(r"Mesh2d_face_y")
+    except OSError:
+        # Linux support not yet implemented in UGridpy
+        with Dataset(input_file_path) as nc:
+            node_x = np.asarray(nc.variables[r"Mesh2d_face_x"][:]).flatten()
+            node_y = np.asarray(nc.variables[r"Mesh2d_face_y"][:]).flatten()
 
     return node_x, node_y
 
@@ -44,12 +50,17 @@ def load_data(input_file_path: str, variable: str) -> np.ndarray:
         data (np.ndarray): data at the mesh nodes
     """
 
-    with UGrid(
-        input_file_path,
-        "r",
-    ) as ug:
+    try:
+        with UGrid(
+            input_file_path,
+            "r",
+        ) as ug:
 
-        data = ug.variable_get_data_double(variable)
+            data = ug.variable_get_data_double(variable)
+    except OSError:
+        # Linux support not yet implemented in UGridpy
+        with Dataset(input_file_path) as nc:
+            data = np.asarray(nc.variables[variable][:]).flatten()
 
     return data
 
@@ -148,7 +159,7 @@ def load_classmap_data(
     x = np.arange(0, class_bounds.shape[0]) + 1  # classes are 1 indexed
     y[-1] = class_bounds[-1, 0]  # use lower bound for last class, as it goes to infinity
 
-    # 'interpolate' -> we only querry at the points provided so no real interpolation is taking place. Still a convenient implementation
+    # 'interpolate' -> we only querry at the points provided so no real interpolation is taking place. Done for convenience
     f = interp1d(x, y, bounds_error=False, fill_value=(np.nan, np.nan))
     map_data = f(clm_data)
 
@@ -164,7 +175,7 @@ def load_classmap_data(
 
 
 def create_raster(
-    node_x: np.ndarray, node_y: np.ndarray, resolution: float
+    node_x: np.ndarray, node_y: np.ndarray, resolution: float, margin: float = 1.05
 ) -> Tuple[np.ndarray, np.ndarray, np.ndarray]:
     """
     Creates a raster that spans from min(node_x) to max(node_x) and from min(node_y) to max(node_y)
@@ -174,6 +185,9 @@ def create_raster(
         node_x (np.ndarray): x-coordinates of the mesh nodes
         node_y (np.ndarray): y-coordinates of the mesh nodes
         resolution (float): resolution of the raster
+        margin (float): margin around the node face center that the raster covers, in percentage.
+                        A value of 1 corresponds to 100%, the default value of 1.05 corresponds
+                        to 105% of the extend of the nodes face coordinates
 
     Returns:
         grid_x (np.ndarray): x-coordinates of the raster points
@@ -181,12 +195,63 @@ def create_raster(
         bounds (np.ndarray): outermost coordinates of the raster (west, east, south, north)
     """
 
-    bounds = np.array([min(node_x), max(node_x), min(node_y), max(node_y)])
-    xrange = np.arange(bounds[0], bounds[1] + resolution, resolution)
-    yrange = np.arange(bounds[2], bounds[3] + resolution, resolution)
+    bounds, n_cells = get_bounds(
+        node_x=node_x, node_y=node_y, resolution=resolution, margin=margin
+    )
+    xrange = np.linspace(start=bounds[0], stop=bounds[1], num=n_cells[0], endpoint=True)
+    yrange = np.linspace(start=bounds[2], stop=bounds[3], num=n_cells[1], endpoint=True)
     grid_x, grid_y = np.meshgrid(xrange, yrange)
 
     return grid_x, grid_y, bounds
+
+
+def get_bounds(
+    node_x: np.ndarray, node_y: np.ndarray, resolution: float, margin: float
+) -> np.ndarray:
+    """
+    Determines the raster bounds based on given resolution and margin.
+    Guarantees that the resolution is maintained and extends span if the span in a direction is not an exact multiple of resolution.
+
+    Args:
+        node_x (np.ndarray): x-coordinates of the mesh nodes
+        node_y (np.ndarray): y-coordinates of the mesh nodes
+        resolution (float): resolution of the raster
+        margin (float): margin around the node face center that the raster covers, in percentage.
+                        A value of 1 corresponds to 100%, the default value of 1.05 corresponds
+                        to 105% of the extend of the nodes face coordinates
+
+    Returns:
+        bounds (np.ndarray): outermost coordinates of the raster (west, east, south, north)
+        n_cells(np.ndarray): number of cells in x and y direction (x, y)
+    """
+    # Determine span of nodes
+    span_x = max(node_x) - min(node_x)
+    span_y = max(node_y) - min(node_y)
+
+    # Compute how many cells cover the span*margin
+    n_cells_x = np.ceil(span_x * margin / resolution).astype(int)
+    n_cells_y = np.ceil(span_y * margin / resolution).astype(int)
+
+    # Compute the new span of n_cells * resolution
+    fitted_span_x = n_cells_x * resolution
+    fitted_span_y = n_cells_y * resolution
+
+    # Compute difference w.r.t. original span
+    diff_span_x = fitted_span_x - span_x
+    diff_span_y = fitted_span_y - span_y
+
+    # Determine bounds
+    min_x = min(node_x) - diff_span_x / 2
+    max_x = max(node_x) + diff_span_x / 2
+
+    min_y = min(node_y) - diff_span_y / 2
+    max_y = max(node_y) + diff_span_y / 2
+
+    # Return results
+    bounds = np.array([min_x, max_x, min_y, max_y])
+    n_cells = np.array([n_cells_x, n_cells_y])
+
+    return bounds, n_cells
 
 
 def mesh_data_to_raster(
@@ -224,13 +289,13 @@ def mesh_data_to_raster(
     grid_data = griddata(points, node_data, (grid_x, grid_y), method=interpolation)
 
     if distance_tol > 0:
-        # set raster points that are too far away from mesh nodes to zero
+        # set raster points that are too far away from mesh nodes to NaN
         # Store mesh points and raster points in KDTrees and compute distance if < distance_tol
         meshtree = KDTree(points)
         rastertree = KDTree(list(zip(grid_x.flatten(), grid_y.flatten())))
         sdm = rastertree.sparse_distance_matrix(meshtree, distance_tol, output_type="coo_matrix")
 
-        # Compute number of entries per row (in getnnz()), if none then the raster pixel will be skipped as its too far from a mesh node
+        # Compute number of entries per row (in getnnz()), if 0 then the raster pixel will be NaN as its too far from a mesh node
         skip_ix = sdm.getnnz(axis=1) == 0
 
         # Skip raster pixels that are too far from nodes (set them to nan)
@@ -245,7 +310,7 @@ def mesh_data_to_raster(
 
 
 def write_tiff(
-    output_file_path: str, new_grid_data: np.ndarray, bounds: np.ndarray, epsg: int = 28992
+    output_file_path: str, new_grid_data: np.ndarray, bounds: np.ndarray, epsg: int
 ) -> None:
     """
     Saves new_grid_data to a tiff file. new_grid_data should be a raster.
