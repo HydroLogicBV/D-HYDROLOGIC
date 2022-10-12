@@ -328,22 +328,28 @@ title="Open an issue"
 
 <div class="viewcode-block" id="load_mesh"><a class="viewcode-back" href="../flowmeshreader_api.html#flowmeshreader.load_mesh">[docs]</a><span class="k">def</span> <span class="nf">load_mesh</span><span class="p">(</span><span class="n">input_file_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Retrieves the mesh nodes x and y-coordinates from the netCDF file at input_file_path</span>
+<span class="sd">    Retrieves the mesh nodes faces&#39; x and y-coordinates from the netCDF file at input_file_path</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        input_file_path (str): path to the input file</span>
 
 <span class="sd">    Returns:</span>
-<span class="sd">        node_x (np.ndarray): x-coordinates of the mesh nodes</span>
-<span class="sd">        node_y (np.ndarray): y-coordinates of the mesh nodes</span>
+<span class="sd">        node_x (np.ndarray): x-coordinates of the mesh nodes faces</span>
+<span class="sd">        node_y (np.ndarray): y-coordinates of the mesh nodes faces</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">with</span> <span class="n">UGrid</span><span class="p">(</span>
-        <span class="n">input_file_path</span><span class="p">,</span>
-        <span class="s2">&quot;r&quot;</span><span class="p">,</span>
-    <span class="p">)</span> <span class="k">as</span> <span class="n">ug</span><span class="p">:</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">with</span> <span class="n">UGrid</span><span class="p">(</span>
+            <span class="n">input_file_path</span><span class="p">,</span>
+            <span class="s2">&quot;r&quot;</span><span class="p">,</span>
+        <span class="p">)</span> <span class="k">as</span> <span class="n">ug</span><span class="p">:</span>
 
-        <span class="n">node_x</span> <span class="o">=</span> <span class="n">ug</span><span class="o">.</span><span class="n">variable_get_data_double</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;Mesh2d_face_x&quot;</span><span class="p">)</span>
-        <span class="n">node_y</span> <span class="o">=</span> <span class="n">ug</span><span class="o">.</span><span class="n">variable_get_data_double</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;Mesh2d_face_y&quot;</span><span class="p">)</span>
+            <span class="n">node_x</span> <span class="o">=</span> <span class="n">ug</span><span class="o">.</span><span class="n">variable_get_data_double</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;Mesh2d_face_x&quot;</span><span class="p">)</span>
+            <span class="n">node_y</span> <span class="o">=</span> <span class="n">ug</span><span class="o">.</span><span class="n">variable_get_data_double</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;Mesh2d_face_y&quot;</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">OSError</span><span class="p">:</span>
+        <span class="c1"># Linux support not yet implemented in UGridpy</span>
+        <span class="k">with</span> <span class="n">Dataset</span><span class="p">(</span><span class="n">input_file_path</span><span class="p">)</span> <span class="k">as</span> <span class="n">nc</span><span class="p">:</span>
+            <span class="n">node_x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">nc</span><span class="o">.</span><span class="n">variables</span><span class="p">[</span><span class="sa">r</span><span class="s2">&quot;Mesh2d_face_x&quot;</span><span class="p">][:])</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+            <span class="n">node_y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">nc</span><span class="o">.</span><span class="n">variables</span><span class="p">[</span><span class="sa">r</span><span class="s2">&quot;Mesh2d_face_y&quot;</span><span class="p">][:])</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
 
     <span class="k">return</span> <span class="n">node_x</span><span class="p">,</span> <span class="n">node_y</span></div>
 
@@ -360,12 +366,17 @@ title="Open an issue"
 <span class="sd">        data (np.ndarray): data at the mesh nodes</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="k">with</span> <span class="n">UGrid</span><span class="p">(</span>
-        <span class="n">input_file_path</span><span class="p">,</span>
-        <span class="s2">&quot;r&quot;</span><span class="p">,</span>
-    <span class="p">)</span> <span class="k">as</span> <span class="n">ug</span><span class="p">:</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">with</span> <span class="n">UGrid</span><span class="p">(</span>
+            <span class="n">input_file_path</span><span class="p">,</span>
+            <span class="s2">&quot;r&quot;</span><span class="p">,</span>
+        <span class="p">)</span> <span class="k">as</span> <span class="n">ug</span><span class="p">:</span>
 
-        <span class="n">data</span> <span class="o">=</span> <span class="n">ug</span><span class="o">.</span><span class="n">variable_get_data_double</span><span class="p">(</span><span class="n">variable</span><span class="p">)</span>
+            <span class="n">data</span> <span class="o">=</span> <span class="n">ug</span><span class="o">.</span><span class="n">variable_get_data_double</span><span class="p">(</span><span class="n">variable</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">OSError</span><span class="p">:</span>
+        <span class="c1"># Linux support not yet implemented in UGridpy</span>
+        <span class="k">with</span> <span class="n">Dataset</span><span class="p">(</span><span class="n">input_file_path</span><span class="p">)</span> <span class="k">as</span> <span class="n">nc</span><span class="p">:</span>
+            <span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">nc</span><span class="o">.</span><span class="n">variables</span><span class="p">[</span><span class="n">variable</span><span class="p">][:])</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
 
     <span class="k">return</span> <span class="n">data</span></div>
 
@@ -464,7 +475,7 @@ title="Open an issue"
     <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">class_bounds</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">+</span> <span class="mi">1</span>  <span class="c1"># classes are 1 indexed</span>
     <span class="n">y</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">class_bounds</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>  <span class="c1"># use lower bound for last class, as it goes to infinity</span>
 
-    <span class="c1"># &#39;interpolate&#39; -&gt; we only querry at the points provided so no real interpolation is taking place. Still a convenient implementation</span>
+    <span class="c1"># &#39;interpolate&#39; -&gt; we only querry at the points provided so no real interpolation is taking place. Done for convenience</span>
     <span class="n">f</span> <span class="o">=</span> <span class="n">interp1d</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">bounds_error</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">fill_value</span><span class="o">=</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">))</span>
     <span class="n">map_data</span> <span class="o">=</span> <span class="n">f</span><span class="p">(</span><span class="n">clm_data</span><span class="p">)</span>
 
@@ -480,7 +491,7 @@ title="Open an issue"
 
 
 <div class="viewcode-block" id="create_raster"><a class="viewcode-back" href="../flowmeshreader_api.html#flowmeshreader.create_raster">[docs]</a><span class="k">def</span> <span class="nf">create_raster</span><span class="p">(</span>
-    <span class="n">node_x</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">node_y</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">resolution</span><span class="p">:</span> <span class="nb">float</span>
+    <span class="n">node_x</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">node_y</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">resolution</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">margin</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.05</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Creates a raster that spans from min(node_x) to max(node_x) and from min(node_y) to max(node_y)</span>
@@ -490,6 +501,9 @@ title="Open an issue"
 <span class="sd">        node_x (np.ndarray): x-coordinates of the mesh nodes</span>
 <span class="sd">        node_y (np.ndarray): y-coordinates of the mesh nodes</span>
 <span class="sd">        resolution (float): resolution of the raster</span>
+<span class="sd">        margin (float): margin around the node face center that the raster covers, in percentage.</span>
+<span class="sd">                        A value of 1 corresponds to 100%, the default value of 1.05 corresponds</span>
+<span class="sd">                        to 105% of the extend of the nodes face coordinates</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        grid_x (np.ndarray): x-coordinates of the raster points</span>
@@ -497,12 +511,63 @@ title="Open an issue"
 <span class="sd">        bounds (np.ndarray): outermost coordinates of the raster (west, east, south, north)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
-    <span class="n">bounds</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="nb">min</span><span class="p">(</span><span class="n">node_x</span><span class="p">),</span> <span class="nb">max</span><span class="p">(</span><span class="n">node_x</span><span class="p">),</span> <span class="nb">min</span><span class="p">(</span><span class="n">node_y</span><span class="p">),</span> <span class="nb">max</span><span class="p">(</span><span class="n">node_y</span><span class="p">)])</span>
-    <span class="n">xrange</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">bounds</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">bounds</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">resolution</span><span class="p">,</span> <span class="n">resolution</span><span class="p">)</span>
-    <span class="n">yrange</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">bounds</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">bounds</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">+</span> <span class="n">resolution</span><span class="p">,</span> <span class="n">resolution</span><span class="p">)</span>
+    <span class="n">bounds</span><span class="p">,</span> <span class="n">n_cells</span> <span class="o">=</span> <span class="n">get_bounds</span><span class="p">(</span>
+        <span class="n">node_x</span><span class="o">=</span><span class="n">node_x</span><span class="p">,</span> <span class="n">node_y</span><span class="o">=</span><span class="n">node_y</span><span class="p">,</span> <span class="n">resolution</span><span class="o">=</span><span class="n">resolution</span><span class="p">,</span> <span class="n">margin</span><span class="o">=</span><span class="n">margin</span>
+    <span class="p">)</span>
+    <span class="n">xrange</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">start</span><span class="o">=</span><span class="n">bounds</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">stop</span><span class="o">=</span><span class="n">bounds</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">num</span><span class="o">=</span><span class="n">n_cells</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">endpoint</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">yrange</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">start</span><span class="o">=</span><span class="n">bounds</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">stop</span><span class="o">=</span><span class="n">bounds</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span> <span class="n">num</span><span class="o">=</span><span class="n">n_cells</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">endpoint</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
     <span class="n">grid_x</span><span class="p">,</span> <span class="n">grid_y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">meshgrid</span><span class="p">(</span><span class="n">xrange</span><span class="p">,</span> <span class="n">yrange</span><span class="p">)</span>
 
     <span class="k">return</span> <span class="n">grid_x</span><span class="p">,</span> <span class="n">grid_y</span><span class="p">,</span> <span class="n">bounds</span></div>
+
+
+<span class="k">def</span> <span class="nf">get_bounds</span><span class="p">(</span>
+    <span class="n">node_x</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">node_y</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">resolution</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">margin</span><span class="p">:</span> <span class="nb">float</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Determines the raster bounds based on given resolution and margin.</span>
+<span class="sd">    Guarantees that the resolution is maintained and extends span if the span in a direction is not an exact multiple of resolution.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        node_x (np.ndarray): x-coordinates of the mesh nodes</span>
+<span class="sd">        node_y (np.ndarray): y-coordinates of the mesh nodes</span>
+<span class="sd">        resolution (float): resolution of the raster</span>
+<span class="sd">        margin (float): margin around the node face center that the raster covers, in percentage.</span>
+<span class="sd">                        A value of 1 corresponds to 100%, the default value of 1.05 corresponds</span>
+<span class="sd">                        to 105% of the extend of the nodes face coordinates</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        bounds (np.ndarray): outermost coordinates of the raster (west, east, south, north)</span>
+<span class="sd">        n_cells(np.ndarray): number of cells in x and y direction (x, y)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Determine span of nodes</span>
+    <span class="n">span_x</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">node_x</span><span class="p">)</span> <span class="o">-</span> <span class="nb">min</span><span class="p">(</span><span class="n">node_x</span><span class="p">)</span>
+    <span class="n">span_y</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">node_y</span><span class="p">)</span> <span class="o">-</span> <span class="nb">min</span><span class="p">(</span><span class="n">node_y</span><span class="p">)</span>
+
+    <span class="c1"># Compute how many cells cover the span*margin</span>
+    <span class="n">n_cells_x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ceil</span><span class="p">(</span><span class="n">span_x</span> <span class="o">*</span> <span class="n">margin</span> <span class="o">/</span> <span class="n">resolution</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+    <span class="n">n_cells_y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ceil</span><span class="p">(</span><span class="n">span_y</span> <span class="o">*</span> <span class="n">margin</span> <span class="o">/</span> <span class="n">resolution</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+
+    <span class="c1"># Compute the new span of n_cells * resolution</span>
+    <span class="n">fitted_span_x</span> <span class="o">=</span> <span class="n">n_cells_x</span> <span class="o">*</span> <span class="n">resolution</span>
+    <span class="n">fitted_span_y</span> <span class="o">=</span> <span class="n">n_cells_y</span> <span class="o">*</span> <span class="n">resolution</span>
+
+    <span class="c1"># Compute difference w.r.t. original span</span>
+    <span class="n">diff_span_x</span> <span class="o">=</span> <span class="n">fitted_span_x</span> <span class="o">-</span> <span class="n">span_x</span>
+    <span class="n">diff_span_y</span> <span class="o">=</span> <span class="n">fitted_span_y</span> <span class="o">-</span> <span class="n">span_y</span>
+
+    <span class="c1"># Determine bounds</span>
+    <span class="n">min_x</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">node_x</span><span class="p">)</span> <span class="o">-</span> <span class="n">diff_span_x</span> <span class="o">/</span> <span class="mi">2</span>
+    <span class="n">max_x</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">node_x</span><span class="p">)</span> <span class="o">+</span> <span class="n">diff_span_x</span> <span class="o">/</span> <span class="mi">2</span>
+
+    <span class="n">min_y</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">node_y</span><span class="p">)</span> <span class="o">-</span> <span class="n">diff_span_y</span> <span class="o">/</span> <span class="mi">2</span>
+    <span class="n">max_y</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">node_y</span><span class="p">)</span> <span class="o">+</span> <span class="n">diff_span_y</span> <span class="o">/</span> <span class="mi">2</span>
+
+    <span class="c1"># Return results</span>
+    <span class="n">bounds</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">min_x</span><span class="p">,</span> <span class="n">max_x</span><span class="p">,</span> <span class="n">min_y</span><span class="p">,</span> <span class="n">max_y</span><span class="p">])</span>
+    <span class="n">n_cells</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">n_cells_x</span><span class="p">,</span> <span class="n">n_cells_y</span><span class="p">])</span>
+
+    <span class="k">return</span> <span class="n">bounds</span><span class="p">,</span> <span class="n">n_cells</span>
 
 
 <div class="viewcode-block" id="mesh_data_to_raster"><a class="viewcode-back" href="../flowmeshreader_api.html#flowmeshreader.mesh_data_to_raster">[docs]</a><span class="k">def</span> <span class="nf">mesh_data_to_raster</span><span class="p">(</span>
@@ -540,13 +605,13 @@ title="Open an issue"
     <span class="n">grid_data</span> <span class="o">=</span> <span class="n">griddata</span><span class="p">(</span><span class="n">points</span><span class="p">,</span> <span class="n">node_data</span><span class="p">,</span> <span class="p">(</span><span class="n">grid_x</span><span class="p">,</span> <span class="n">grid_y</span><span class="p">),</span> <span class="n">method</span><span class="o">=</span><span class="n">interpolation</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="n">distance_tol</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
-        <span class="c1"># set raster points that are too far away from mesh nodes to zero</span>
+        <span class="c1"># set raster points that are too far away from mesh nodes to NaN</span>
         <span class="c1"># Store mesh points and raster points in KDTrees and compute distance if &lt; distance_tol</span>
         <span class="n">meshtree</span> <span class="o">=</span> <span class="n">KDTree</span><span class="p">(</span><span class="n">points</span><span class="p">)</span>
         <span class="n">rastertree</span> <span class="o">=</span> <span class="n">KDTree</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">grid_x</span><span class="o">.</span><span class="n">flatten</span><span class="p">(),</span> <span class="n">grid_y</span><span class="o">.</span><span class="n">flatten</span><span class="p">())))</span>
         <span class="n">sdm</span> <span class="o">=</span> <span class="n">rastertree</span><span class="o">.</span><span class="n">sparse_distance_matrix</span><span class="p">(</span><span class="n">meshtree</span><span class="p">,</span> <span class="n">distance_tol</span><span class="p">,</span> <span class="n">output_type</span><span class="o">=</span><span class="s2">&quot;coo_matrix&quot;</span><span class="p">)</span>
 
-        <span class="c1"># Compute number of entries per row (in getnnz()), if none then the raster pixel will be skipped as its too far from a mesh node</span>
+        <span class="c1"># Compute number of entries per row (in getnnz()), if 0 then the raster pixel will be NaN as its too far from a mesh node</span>
         <span class="n">skip_ix</span> <span class="o">=</span> <span class="n">sdm</span><span class="o">.</span><span class="n">getnnz</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span>
 
         <span class="c1"># Skip raster pixels that are too far from nodes (set them to nan)</span>
@@ -561,7 +626,7 @@ title="Open an issue"
 
 
 <div class="viewcode-block" id="write_tiff"><a class="viewcode-back" href="../flowmeshreader_api.html#flowmeshreader.write_tiff">[docs]</a><span class="k">def</span> <span class="nf">write_tiff</span><span class="p">(</span>
-    <span class="n">output_file_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">new_grid_data</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">bounds</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">epsg</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">28992</span>
+    <span class="n">output_file_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">new_grid_data</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">bounds</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">epsg</span><span class="p">:</span> <span class="nb">int</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Saves new_grid_data to a tiff file. new_grid_data should be a raster.</span>
