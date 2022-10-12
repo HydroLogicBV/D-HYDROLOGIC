@@ -93,13 +93,18 @@ def load_map_data(input_file_path: str, variable: str) -> np.ndarray:
     Returns:
         map_data (np.ndarray): data at the mesh nodes (time, spatial)
     """
-
     # Load data from file
-    with UGrid(
-        input_file_path,
-        "r",
-    ) as ug:
-        map_data = ug.variable_get_data_double(variable)
+    try:
+        with UGrid(
+            input_file_path,
+            "r",
+        ) as ug:
+
+            map_data = ug.variable_get_data_double(variable)
+    except OSError:
+        # Linux support not yet implemented in UGridpy
+        with Dataset(input_file_path) as nc:
+            map_data = np.asarray(nc.variables[variable][:]).flatten()
 
     # reshape data using dimensions from netCDF input file (time, spatial)
     nc = Dataset(input_file_path)
