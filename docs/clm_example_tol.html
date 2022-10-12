@@ -404,12 +404,12 @@ title="Print to PDF"
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 
 <span class="n">currentdir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">())</span>
-<span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">currentdir</span><span class="p">)</span>
 <span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">currentdir</span> <span class="o">+</span> <span class="s2">&quot;/HydroLogic_Inundation_toolbox&quot;</span><span class="p">)</span>
 <span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">currentdir</span> <span class="o">+</span> <span class="s2">&quot;/HydroLogic_Inundation_toolbox/Readers&quot;</span><span class="p">)</span>
 
 <span class="kn">from</span> <span class="nn">flowmeshreader</span> <span class="kn">import</span> <span class="n">load_classmap_data</span><span class="p">,</span> <span class="n">mesh_to_tiff</span>
 <span class="kn">from</span> <span class="nn">inundation_toolbox</span> <span class="kn">import</span> <span class="n">arrival_times</span><span class="p">,</span> <span class="n">height_of_mrs</span><span class="p">,</span> <span class="n">rising_speeds</span>
+<span class="kn">from</span> <span class="nn">plotting</span> <span class="kn">import</span> <span class="n">raster_plot_with_context</span>
 </pre></div>
 </div>
 </div>
@@ -450,10 +450,10 @@ title="Print to PDF"
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Prepare inundation specific parameter</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Compute inundation specific variables</span>
 <span class="n">t_arrival</span> <span class="o">=</span> <span class="n">arrival_times</span><span class="p">(</span><span class="n">clm_data</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">timedelta64</span><span class="p">(</span><span class="mi">60</span><span class="p">,</span> <span class="s2">&quot;s&quot;</span><span class="p">),</span> <span class="n">time_unit</span><span class="o">=</span><span class="s2">&quot;h&quot;</span><span class="p">,</span> <span class="n">arrival_threshold</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
 
-<span class="n">s_rising</span> <span class="o">=</span> <span class="n">rising_speeds</span><span class="p">(</span><span class="n">map_data</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">timedelta64</span><span class="p">(</span><span class="mi">60</span><span class="p">,</span> <span class="s2">&quot;s&quot;</span><span class="p">),</span> <span class="n">time_unit</span><span class="o">=</span><span class="s2">&quot;s&quot;</span><span class="p">)</span>
+<span class="n">s_rising</span> <span class="o">=</span> <span class="n">rising_speeds</span><span class="p">(</span><span class="n">map_data</span><span class="p">,</span> <span class="n">time_step</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">timedelta64</span><span class="p">(</span><span class="mi">60</span><span class="p">,</span> <span class="s2">&quot;s&quot;</span><span class="p">))</span>
 <span class="n">max_s_rising</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">amax</span><span class="p">(</span><span class="n">s_rising</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 
 <span class="n">h_mrs</span> <span class="o">=</span> <span class="n">height_of_mrs</span><span class="p">(</span><span class="n">map_data</span><span class="p">,</span> <span class="n">s_rising</span><span class="p">)</span>
@@ -463,46 +463,77 @@ title="Print to PDF"
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Add to lists for looping</span>
-<span class="n">data_arrays</span> <span class="o">=</span> <span class="p">[</span><span class="n">t_arrival</span><span class="p">,</span> <span class="n">max_s_rising</span><span class="p">,</span> <span class="n">h_mrs</span><span class="p">]</span>
-<span class="n">output_paths</span> <span class="o">=</span> <span class="p">[</span>
-    <span class="n">output_file_path</span> <span class="o">+</span> <span class="sa">r</span><span class="s2">&quot;/arrival.tiff&quot;</span><span class="p">,</span>
-    <span class="n">output_file_path</span> <span class="o">+</span> <span class="sa">r</span><span class="s2">&quot;/max_rising.tiff&quot;</span><span class="p">,</span>
-    <span class="n">output_file_path</span> <span class="o">+</span> <span class="sa">r</span><span class="s2">&quot;/h_mrs.tiff&quot;</span><span class="p">,</span>
-<span class="p">]</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">data</span><span class="p">,</span> <span class="n">output_file_path</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">data_arrays</span><span class="p">,</span> <span class="n">output_paths</span><span class="p">):</span>
-    <span class="n">_</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">grid_data</span> <span class="o">=</span> <span class="n">mesh_to_tiff</span><span class="p">(</span>
-        <span class="n">data</span><span class="p">,</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Plot arrival times</span>
+<span class="n">_</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">grid_data</span> <span class="o">=</span> <span class="n">mesh_to_tiff</span><span class="p">(</span>
+        <span class="n">t_arrival</span><span class="p">,</span>
         <span class="n">input_file_path</span><span class="p">,</span>
-        <span class="n">output_file_path</span><span class="p">,</span>
+        <span class="n">output_file_path</span> <span class="o">+</span> <span class="sa">r</span><span class="s2">&quot;\arrival.tiff&quot;</span><span class="p">,</span>
         <span class="n">resolution</span><span class="p">,</span>
         <span class="n">distance_tol</span><span class="p">,</span>
         <span class="n">interpolation</span><span class="o">=</span><span class="n">interpolation</span><span class="p">,</span>
     <span class="p">)</span>
-
-    <span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">()</span>
-    <span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">grid_data</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">::</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="p">:])</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">raster_plot_with_context</span><span class="p">(</span>
+    <span class="n">raster_path</span> <span class="o">=</span> <span class="n">output_file_path</span> <span class="o">+</span> <span class="sa">r</span><span class="s2">&quot;\arrival.tiff&quot;</span><span class="p">,</span> 
+    <span class="n">epsg</span> <span class="o">=</span> <span class="mi">28992</span><span class="p">,</span> 
+    <span class="n">clabel</span> <span class="o">=</span> <span class="s2">&quot;time (h)&quot;</span><span class="p">,</span> 
+    <span class="n">cmap</span> <span class="o">=</span> <span class="s2">&quot;Oranges_r&quot;</span><span class="p">,</span> 
+    <span class="n">title</span> <span class="o">=</span> <span class="s2">&quot;Arrival time&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/clm_example_tol_7_0.png" src="_images/clm_example_tol_7_0.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Plot maximum rising speeds</span>
+<span class="n">_</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">grid_data</span> <span class="o">=</span> <span class="n">mesh_to_tiff</span><span class="p">(</span>
+        <span class="n">max_s_rising</span><span class="p">,</span>
+        <span class="n">input_file_path</span><span class="p">,</span>
+        <span class="n">output_file_path</span> <span class="o">+</span> <span class="sa">r</span><span class="s2">&quot;\max_rising.tiff&quot;</span><span class="p">,</span>
+        <span class="n">resolution</span><span class="p">,</span>
+        <span class="n">distance_tol</span><span class="p">,</span>
+        <span class="n">interpolation</span><span class="o">=</span><span class="n">interpolation</span><span class="p">,</span>
+    <span class="p">)</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">raster_plot_with_context</span><span class="p">(</span>
+    <span class="n">raster_path</span> <span class="o">=</span> <span class="n">output_file_path</span> <span class="o">+</span> <span class="sa">r</span><span class="s2">&quot;\max_rising.tiff&quot;</span><span class="p">,</span> 
+    <span class="n">epsg</span> <span class="o">=</span> <span class="mi">28992</span><span class="p">,</span> 
+    <span class="n">clabel</span> <span class="o">=</span> <span class="s2">&quot;Rising speeds (m/s)&quot;</span><span class="p">,</span> 
+    <span class="n">cmap</span> <span class="o">=</span> <span class="s2">&quot;Blues&quot;</span><span class="p">,</span> 
+    <span class="n">title</span> <span class="o">=</span> <span class="s2">&quot;Maximum rising speeds&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
 <img alt="_images/clm_example_tol_8_0.png" src="_images/clm_example_tol_8_0.png" />
-<img alt="_images/clm_example_tol_8_1.png" src="_images/clm_example_tol_8_1.png" />
-<img alt="_images/clm_example_tol_8_2.png" src="_images/clm_example_tol_8_2.png" />
 </div>
 </div>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># plot</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Plot water depth of maximum rising speed</span>
+<span class="n">_</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">grid_data</span> <span class="o">=</span> <span class="n">mesh_to_tiff</span><span class="p">(</span>
+        <span class="n">h_mrs</span><span class="p">,</span>
+        <span class="n">input_file_path</span><span class="p">,</span>
+        <span class="n">output_file_path</span> <span class="o">+</span> <span class="sa">r</span><span class="s2">&quot;\h_mrs.tiff&quot;</span><span class="p">,</span>
+        <span class="n">resolution</span><span class="p">,</span>
+        <span class="n">distance_tol</span><span class="p">,</span>
+        <span class="n">interpolation</span><span class="o">=</span><span class="n">interpolation</span><span class="p">,</span>
+    <span class="p">)</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">raster_plot_with_context</span><span class="p">(</span>
+    <span class="n">raster_path</span> <span class="o">=</span> <span class="n">output_file_path</span> <span class="o">+</span> <span class="sa">r</span><span class="s2">&quot;\h_mrs.tiff&quot;</span><span class="p">,</span> 
+    <span class="n">epsg</span> <span class="o">=</span> <span class="mi">28992</span><span class="p">,</span> 
+    <span class="n">clabel</span> <span class="o">=</span> <span class="s2">&quot;water depth (m)&quot;</span><span class="p">,</span> 
+    <span class="n">cmap</span> <span class="o">=</span> <span class="s2">&quot;Reds&quot;</span><span class="p">,</span> 
+    <span class="n">title</span> <span class="o">=</span> <span class="s2">&quot;Water depth at maximum rising speeds&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
 </pre></div>
 </div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/clm_example_tol_9_0.png" src="_images/clm_example_tol_9_0.png" />
 </div>
 </div>
 </section>
