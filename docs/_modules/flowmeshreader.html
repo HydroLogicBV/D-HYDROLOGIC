@@ -409,13 +409,18 @@ title="Open an issue"
 <span class="sd">    Returns:</span>
 <span class="sd">        map_data (np.ndarray): data at the mesh nodes (time, spatial)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-
     <span class="c1"># Load data from file</span>
-    <span class="k">with</span> <span class="n">UGrid</span><span class="p">(</span>
-        <span class="n">input_file_path</span><span class="p">,</span>
-        <span class="s2">&quot;r&quot;</span><span class="p">,</span>
-    <span class="p">)</span> <span class="k">as</span> <span class="n">ug</span><span class="p">:</span>
-        <span class="n">map_data</span> <span class="o">=</span> <span class="n">ug</span><span class="o">.</span><span class="n">variable_get_data_double</span><span class="p">(</span><span class="n">variable</span><span class="p">)</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="k">with</span> <span class="n">UGrid</span><span class="p">(</span>
+            <span class="n">input_file_path</span><span class="p">,</span>
+            <span class="s2">&quot;r&quot;</span><span class="p">,</span>
+        <span class="p">)</span> <span class="k">as</span> <span class="n">ug</span><span class="p">:</span>
+
+            <span class="n">map_data</span> <span class="o">=</span> <span class="n">ug</span><span class="o">.</span><span class="n">variable_get_data_double</span><span class="p">(</span><span class="n">variable</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">OSError</span><span class="p">:</span>
+        <span class="c1"># Linux support not yet implemented in UGridpy</span>
+        <span class="k">with</span> <span class="n">Dataset</span><span class="p">(</span><span class="n">input_file_path</span><span class="p">)</span> <span class="k">as</span> <span class="n">nc</span><span class="p">:</span>
+            <span class="n">map_data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">nc</span><span class="o">.</span><span class="n">variables</span><span class="p">[</span><span class="n">variable</span><span class="p">][:])</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
 
     <span class="c1"># reshape data using dimensions from netCDF input file (time, spatial)</span>
     <span class="n">nc</span> <span class="o">=</span> <span class="n">Dataset</span><span class="p">(</span><span class="n">input_file_path</span><span class="p">)</span>
