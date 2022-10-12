@@ -1,9 +1,10 @@
 name: inundation_toolbox
 dependencies:
   - python=3.10
+  - contextily
   - GDAL==3.4.3
   - matplotlib
-  - contextily
+  - matplotlib_scalebar
   - netCDF4
   - numpy
   - pandas
