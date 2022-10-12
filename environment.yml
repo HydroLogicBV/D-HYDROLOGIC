@@ -3,6 +3,7 @@ dependencies:
   - python=3.10
   - GDAL==3.4.3
   - matplotlib
+  - contextily
   - netCDF4
   - numpy
   - pandas
