@@ -4,7 +4,6 @@ dependencies:
   - contextily
   - GDAL==3.4.3
   - matplotlib
-  - matplotlib_scalebar
   - netCDF4
   - numpy
   - pandas
@@ -13,5 +12,6 @@ dependencies:
   - scipy
   - pip
   - pip:
+    - matplotlib_scalebar
     - ugrid
   
