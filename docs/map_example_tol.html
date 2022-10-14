@@ -369,12 +369,61 @@ title="Print to PDF"
     </ul>
   </div>
 </div>
+<label for="__page-toc"
+  class="headerbtn headerbtn-page-toc"
+  
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-list"></i>
+  </span>
+
+</label>
 
     </div>
 </div>
 
 <!-- Table of contents -->
 <div class="col-md-3 bd-toc show noprint">
+    <div class="tocsection onthispage pt-5 pb-3">
+        <i class="fas fa-list"></i> Contents
+    </div>
+    <nav id="bd-toc-nav" aria-label="Page">
+        <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#import-modules">
+   1. Import modules
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#set-input-and-output-paths">
+   2. Set input and output paths
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#set-output-raster-options">
+   3. Set output raster options
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#set-variable-to-read-from-map-nc-file">
+   4. Set variable to read from map.nc file
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#load-map-data-from-netcdf-file">
+   5. Load map data from NetCDF file
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#plot-water-depth-at-last-time-step">
+   6. Plot water depth at last time step
+  </a>
+ </li>
+</ul>
+
+    </nav>
 </div>
     </div>
     <div class="article row">
@@ -386,6 +435,44 @@ title="Print to PDF"
                 <div id="print-main-content">
                     <div id="jb-print-toc">
                         
+                        <div>
+                            <h2> Contents </h2>
+                        </div>
+                        <nav aria-label="Page">
+                            <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#import-modules">
+   1. Import modules
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#set-input-and-output-paths">
+   2. Set input and output paths
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#set-output-raster-options">
+   3. Set output raster options
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#set-variable-to-read-from-map-nc-file">
+   4. Set variable to read from map.nc file
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#load-map-data-from-netcdf-file">
+   5. Load map data from NetCDF file
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#plot-water-depth-at-last-time-step">
+   6. Plot water depth at last time step
+  </a>
+ </li>
+</ul>
+
+                        </nav>
                     </div>
                 </div>
             </div>
@@ -396,6 +483,8 @@ title="Print to PDF"
   <section class="tex2jax_ignore mathjax_ignore" id="example-for-reading-map-file-for-example-tol">
 <h1>Example for reading map-file for example Tol<a class="headerlink" href="#example-for-reading-map-file-for-example-tol" title="Permalink to this headline">#</a></h1>
 <p>The <a class="reference external" href="http://map.nc">map.nc</a> file is read and <em>variable</em> is extracted. Next, the mesh data for the final time-step is converted to a raster and saved to a .tiff</p>
+<section id="import-modules">
+<h2>1. Import modules<a class="headerlink" href="#import-modules" title="Permalink to this headline">#</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
@@ -412,6 +501,9 @@ title="Print to PDF"
 </div>
 </div>
 </div>
+</section>
+<section id="set-input-and-output-paths">
+<h2>2. Set input and output paths<a class="headerlink" href="#set-input-and-output-paths" title="Permalink to this headline">#</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># set paths</span>
@@ -422,6 +514,9 @@ title="Print to PDF"
 </div>
 </div>
 </div>
+</section>
+<section id="set-output-raster-options">
+<h2>3. Set output raster options<a class="headerlink" href="#set-output-raster-options" title="Permalink to this headline">#</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># raster options</span>
@@ -432,6 +527,9 @@ title="Print to PDF"
 </div>
 </div>
 </div>
+</section>
+<section id="set-variable-to-read-from-map-nc-file">
+<h2>4. Set variable to read from <a class="reference external" href="http://map.nc">map.nc</a> file<a class="headerlink" href="#set-variable-to-read-from-map-nc-file" title="Permalink to this headline">#</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">variable</span> <span class="o">=</span> <span class="sa">r</span><span class="s2">&quot;Mesh2d_waterdepth&quot;</span>
@@ -439,6 +537,9 @@ title="Print to PDF"
 </div>
 </div>
 </div>
+</section>
+<section id="load-map-data-from-netcdf-file">
+<h2>5. Load map data from NetCDF file<a class="headerlink" href="#load-map-data-from-netcdf-file" title="Permalink to this headline">#</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># load mesh coordinates and data from netCDF </span>
@@ -447,6 +548,9 @@ title="Print to PDF"
 </div>
 </div>
 </div>
+</section>
+<section id="plot-water-depth-at-last-time-step">
+<h2>6. Plot water depth at last time step<a class="headerlink" href="#plot-water-depth-at-last-time-step" title="Permalink to this headline">#</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># convert to raster and save as tiff</span>
@@ -458,13 +562,7 @@ title="Print to PDF"
     <span class="n">distance_tol</span><span class="p">,</span>
     <span class="n">interpolation</span><span class="o">=</span><span class="n">interpolation</span><span class="p">,</span>
 <span class="p">)</span>
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">raster_plot_with_context</span><span class="p">(</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">raster_plot_with_context</span><span class="p">(</span>
     <span class="n">raster_path</span> <span class="o">=</span> <span class="n">output_file_path</span><span class="p">,</span> 
     <span class="n">epsg</span> <span class="o">=</span> <span class="mi">28992</span><span class="p">,</span> 
     <span class="n">clabel</span> <span class="o">=</span> <span class="s2">&quot;water depth (m)&quot;</span><span class="p">,</span> 
@@ -475,9 +573,10 @@ title="Print to PDF"
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/map_example_tol_7_0.png" src="_images/map_example_tol_7_0.png" />
+<img alt="_images/map_example_tol_12_0.png" src="_images/map_example_tol_12_0.png" />
 </div>
 </div>
+</section>
 </section>
 
     <script type="text/x-thebe-config">

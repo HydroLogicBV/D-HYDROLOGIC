@@ -369,12 +369,76 @@ title="Print to PDF"
     </ul>
   </div>
 </div>
+<label for="__page-toc"
+  class="headerbtn headerbtn-page-toc"
+  
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-list"></i>
+  </span>
+
+</label>
 
     </div>
 </div>
 
 <!-- Table of contents -->
 <div class="col-md-3 bd-toc show noprint">
+    <div class="tocsection onthispage pt-5 pb-3">
+        <i class="fas fa-list"></i> Contents
+    </div>
+    <nav id="bd-toc-nav" aria-label="Page">
+        <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#import-modules">
+   1. Import modules
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#set-input-and-output-paths">
+   2. Set input and output paths
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#set-output-raster-options">
+   3. Set output raster options
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#set-variable-to-read-from-clm-nc-file">
+   4. Set variable to read from clm.nc file
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#load-classmap-and-map-data-from-netcdf-file">
+   5. Load classmap and map data from NetCDF file
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#compute-arrival-times-maximum-rising-speed-and-waterheight-at-maximum-rising-speed">
+   6. Compute arrival times, maximum rising speed, and waterheight at maximum rising speed
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#plot-arrival-time">
+   7. Plot Arrival time
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#plot-maximum-rising-speeds">
+   8. Plot Maximum rising speeds
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#plot-water-depth-at-maximum-rising-speeds">
+   9. Plot water depth at maximum rising speeds
+  </a>
+ </li>
+</ul>
+
+    </nav>
 </div>
     </div>
     <div class="article row">
@@ -386,6 +450,59 @@ title="Print to PDF"
                 <div id="print-main-content">
                     <div id="jb-print-toc">
                         
+                        <div>
+                            <h2> Contents </h2>
+                        </div>
+                        <nav aria-label="Page">
+                            <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#import-modules">
+   1. Import modules
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#set-input-and-output-paths">
+   2. Set input and output paths
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#set-output-raster-options">
+   3. Set output raster options
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#set-variable-to-read-from-clm-nc-file">
+   4. Set variable to read from clm.nc file
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#load-classmap-and-map-data-from-netcdf-file">
+   5. Load classmap and map data from NetCDF file
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#compute-arrival-times-maximum-rising-speed-and-waterheight-at-maximum-rising-speed">
+   6. Compute arrival times, maximum rising speed, and waterheight at maximum rising speed
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#plot-arrival-time">
+   7. Plot Arrival time
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#plot-maximum-rising-speeds">
+   8. Plot Maximum rising speeds
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#plot-water-depth-at-maximum-rising-speeds">
+   9. Plot water depth at maximum rising speeds
+  </a>
+ </li>
+</ul>
+
+                        </nav>
                     </div>
                 </div>
             </div>
@@ -397,6 +514,8 @@ title="Print to PDF"
 <h1>Example for reading clm-file for example Tol<a class="headerlink" href="#example-for-reading-clm-file-for-example-tol" title="Permalink to this headline">#</a></h1>
 <p>The <a class="reference external" href="http://clm.nc">clm.nc</a> file is read and <em>variable</em> is extracted. Next, the mesh data is manipulated, converted to a raster and saved to a .tiff.</p>
 <p>Manipulation of the mesh data includes obtaining the arrival time, the maximum rising speed, and the water height h_mrs at which this happen.</p>
+<section id="import-modules">
+<h2>1. Import modules<a class="headerlink" href="#import-modules" title="Permalink to this headline">#</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
@@ -416,6 +535,9 @@ title="Print to PDF"
 </div>
 </div>
 </div>
+</section>
+<section id="set-input-and-output-paths">
+<h2>2. Set input and output paths<a class="headerlink" href="#set-input-and-output-paths" title="Permalink to this headline">#</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># set paths</span>
@@ -426,6 +548,9 @@ title="Print to PDF"
 </div>
 </div>
 </div>
+</section>
+<section id="set-output-raster-options">
+<h2>3. Set output raster options<a class="headerlink" href="#set-output-raster-options" title="Permalink to this headline">#</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># raster options</span>
@@ -436,6 +561,9 @@ title="Print to PDF"
 </div>
 </div>
 </div>
+</section>
+<section id="set-variable-to-read-from-clm-nc-file">
+<h2>4. Set variable to read from <a class="reference external" href="http://clm.nc">clm.nc</a> file<a class="headerlink" href="#set-variable-to-read-from-clm-nc-file" title="Permalink to this headline">#</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">variable</span> <span class="o">=</span> <span class="sa">r</span><span class="s2">&quot;Mesh2d_waterdepth&quot;</span>
@@ -443,6 +571,9 @@ title="Print to PDF"
 </div>
 </div>
 </div>
+</section>
+<section id="load-classmap-and-map-data-from-netcdf-file">
+<h2>5. Load classmap and map data from NetCDF file<a class="headerlink" href="#load-classmap-and-map-data-from-netcdf-file" title="Permalink to this headline">#</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># load mesh coordinates and data from netCDF </span>
@@ -451,6 +582,9 @@ title="Print to PDF"
 </div>
 </div>
 </div>
+</section>
+<section id="compute-arrival-times-maximum-rising-speed-and-waterheight-at-maximum-rising-speed">
+<h2>6. Compute arrival times, maximum rising speed, and waterheight at maximum rising speed<a class="headerlink" href="#compute-arrival-times-maximum-rising-speed-and-waterheight-at-maximum-rising-speed" title="Permalink to this headline">#</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Compute inundation specific variables</span>
@@ -464,6 +598,9 @@ title="Print to PDF"
 </div>
 </div>
 </div>
+</section>
+<section id="plot-arrival-time">
+<h2>7. Plot Arrival time<a class="headerlink" href="#plot-arrival-time" title="Permalink to this headline">#</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Plot arrival times</span>
@@ -486,9 +623,12 @@ title="Print to PDF"
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/clm_example_tol_7_0.png" src="_images/clm_example_tol_7_0.png" />
+<img alt="_images/clm_example_tol_14_0.png" src="_images/clm_example_tol_14_0.png" />
 </div>
 </div>
+</section>
+<section id="plot-maximum-rising-speeds">
+<h2>8. Plot Maximum rising speeds<a class="headerlink" href="#plot-maximum-rising-speeds" title="Permalink to this headline">#</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Plot maximum rising speeds</span>
@@ -511,9 +651,12 @@ title="Print to PDF"
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/clm_example_tol_8_0.png" src="_images/clm_example_tol_8_0.png" />
+<img alt="_images/clm_example_tol_16_0.png" src="_images/clm_example_tol_16_0.png" />
 </div>
 </div>
+</section>
+<section id="plot-water-depth-at-maximum-rising-speeds">
+<h2>9. Plot water depth at maximum rising speeds<a class="headerlink" href="#plot-water-depth-at-maximum-rising-speeds" title="Permalink to this headline">#</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Plot water depth of maximum rising speed</span>
@@ -536,9 +679,10 @@ title="Print to PDF"
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/clm_example_tol_9_0.png" src="_images/clm_example_tol_9_0.png" />
+<img alt="_images/clm_example_tol_18_0.png" src="_images/clm_example_tol_18_0.png" />
 </div>
 </div>
+</section>
 </section>
 
     <script type="text/x-thebe-config">
