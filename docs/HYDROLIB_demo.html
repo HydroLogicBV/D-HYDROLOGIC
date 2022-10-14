@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
-    <title>Analysing example Tol &#8212; D-HydroLogic</title>
+    <title>Example for reading fou-file for example Tol &#8212; D-HydroLogic</title>
     
   <!-- Loaded before other Sphinx assets -->
   <link href="_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
@@ -52,7 +52,7 @@ const thebe_selector_output = ".output, .cell_output"
     <script async="async" src="_static/sphinx-thebe.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="prev" title="Flowmeshreader api-doc" href="flowmeshreader_api.html" />
+    <link rel="prev" title="Plotting api-doc" href="plotting_api.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="None">
     
@@ -172,6 +172,11 @@ const thebe_selector_output = ".output, .cell_output"
    Flowmeshreader api-doc
   </a>
  </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="plotting_api.html">
+   Plotting api-doc
+  </a>
+ </li>
 </ul>
 <p aria-level="2" class="caption" role="heading">
  <span class="caption-text">
@@ -181,7 +186,7 @@ const thebe_selector_output = ".output, .cell_output"
 <ul class="current nav bd-sidenav">
  <li class="toctree-l1 current active">
   <a class="current reference internal" href="#">
-   Analysing example Tol
+   Example for reading fou-file for example Tol
   </a>
  </li>
 </ul>
@@ -243,7 +248,7 @@ title="Toggle navigation"
   <div class="menu-dropdown__content">
     <ul>
       <li>
-        <a href="https://mybinder.org/v2/gh/HydroLogicBV/D-HYDROLOGIC/main?urlpath=tree/jupyter_book/HYDROLIB_demo.ipynb"
+        <a href="https://mybinder.org/v2/gh/HydroLogicBV/D-HYDROLOGIC/main?urlpath=tree/jupyter_book/HYDROLIB_DEMO.ipynb"
    class="headerbtn"
    data-toggle="tooltip"
 data-placement="left"
@@ -303,7 +308,7 @@ title="Source repository"
       </li>
       
       <li>
-        <a href="https://github.com/HydroLogicBV/D-HYDROLOGIC//issues/new?title=Issue%20on%20page%20%2FHYDROLIB_demo.html&body=Your%20issue%20content%20here."
+        <a href="https://github.com/HydroLogicBV/D-HYDROLOGIC//issues/new?title=Issue%20on%20page%20%2FHYDROLIB_DEMO.html&body=Your%20issue%20content%20here."
    class="headerbtn"
    data-toggle="tooltip"
 data-placement="left"
@@ -331,7 +336,7 @@ title="Open an issue"
   <div class="menu-dropdown__content">
     <ul>
       <li>
-        <a href="_sources/HYDROLIB_demo.ipynb"
+        <a href="_sources/HYDROLIB_DEMO.ipynb"
    class="headerbtn"
    data-toggle="tooltip"
 data-placement="left"
@@ -391,18 +396,40 @@ title="Print to PDF"
     <nav id="bd-toc-nav" aria-label="Page">
         <ul class="visible nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#determine-maximum-water-depth-using-fou-file">
-   Determine maximum water depth using fou file
+  <a class="reference internal nav-link" href="#import-modules">
+   1. Import modules
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#determine-arrival-time-using-clm-file">
-   Determine arrival time using clm file
+  <a class="reference internal nav-link" href="#set-input-and-output-paths">
+   2. Set input and output paths
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#determine-final-water-depth-using-map-file">
-   Determine final water depth using map file
+  <a class="reference internal nav-link" href="#set-output-raster-options">
+   3. Set output raster options
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#read-meta-data-and-set-variable-to-read-from-fou-nc-file">
+   4. Read meta-data and set variable to read from fou.nc file
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#todo-change-variable-to-other-options-from-list-and-update-figures-accordingly">
+     TODO: change variable to other options from list, and update figures accordingly
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#load-fou-map-data-from-netcdf-file">
+   5. Load fou-map data from NetCDF file
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#plot-maximum-water-depth">
+   6. Plot maximum water depth
   </a>
  </li>
 </ul>
@@ -414,7 +441,7 @@ title="Print to PDF"
         <div class="col pl-md-3 pl-lg-5 content-container">
             <!-- Table of contents that is only displayed when printing the page -->
             <div id="jb-print-docs-body" class="onlyprint">
-                <h1>Analysing example Tol</h1>
+                <h1>Example for reading fou-file for example Tol</h1>
                 <!-- Table of contents -->
                 <div id="print-main-content">
                     <div id="jb-print-toc">
@@ -425,18 +452,40 @@ title="Print to PDF"
                         <nav aria-label="Page">
                             <ul class="visible nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#determine-maximum-water-depth-using-fou-file">
-   Determine maximum water depth using fou file
+  <a class="reference internal nav-link" href="#import-modules">
+   1. Import modules
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#determine-arrival-time-using-clm-file">
-   Determine arrival time using clm file
+  <a class="reference internal nav-link" href="#set-input-and-output-paths">
+   2. Set input and output paths
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#determine-final-water-depth-using-map-file">
-   Determine final water depth using map file
+  <a class="reference internal nav-link" href="#set-output-raster-options">
+   3. Set output raster options
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#read-meta-data-and-set-variable-to-read-from-fou-nc-file">
+   4. Read meta-data and set variable to read from fou.nc file
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#todo-change-variable-to-other-options-from-list-and-update-figures-accordingly">
+     TODO: change variable to other options from list, and update figures accordingly
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#load-fou-map-data-from-netcdf-file">
+   5. Load fou-map data from NetCDF file
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#plot-maximum-water-depth">
+   6. Plot maximum water depth
   </a>
  </li>
 </ul>
@@ -449,14 +498,11 @@ title="Print to PDF"
                 
               <div>
                 
-  <section class="tex2jax_ignore mathjax_ignore" id="analysing-example-tol">
-<h1>Analysing example Tol<a class="headerlink" href="#analysing-example-tol" title="Permalink to this headline">#</a></h1>
-<p>Multiple output files are provides in <em>input_file_path</em>:</p>
-<ul class="simple">
-<li><p>1PT10_clm.nc</p></li>
-<li><p>1PT10_fou.nc</p></li>
-<li><p>1PT10_map.nc</p></li>
-</ul>
+  <section class="tex2jax_ignore mathjax_ignore" id="example-for-reading-fou-file-for-example-tol">
+<h1>Example for reading fou-file for example Tol<a class="headerlink" href="#example-for-reading-fou-file-for-example-tol" title="Permalink to this headline">#</a></h1>
+<p>The <a class="reference external" href="http://fou.nc">fou.nc</a> file is read and <em>variable</em> is extracted. Next, the mesh data is converted to a raster and saved to a .tiff</p>
+<section id="import-modules">
+<h2>1. Import modules<a class="headerlink" href="#import-modules" title="Permalink to this headline">#</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
@@ -466,20 +512,29 @@ title="Print to PDF"
 <span class="n">currentdir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">())</span>
 <span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">currentdir</span> <span class="o">+</span> <span class="sa">r</span><span class="s2">&quot;/HydroLogic_Inundation_toolbox&quot;</span><span class="p">)</span>
 <span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">currentdir</span> <span class="o">+</span> <span class="sa">r</span><span class="s2">&quot;/HydroLogic_Inundation_toolbox/Readers&quot;</span><span class="p">)</span>
+
+<span class="kn">from</span> <span class="nn">flowmeshreader</span> <span class="kn">import</span> <span class="n">load_meta_data</span><span class="p">,</span> <span class="n">load_fou_data</span><span class="p">,</span> <span class="n">mesh_to_tiff</span>
+<span class="kn">from</span> <span class="nn">plotting</span> <span class="kn">import</span> <span class="n">raster_plot_with_context</span>
 </pre></div>
 </div>
 </div>
 </div>
+</section>
+<section id="set-input-and-output-paths">
+<h2>2. Set input and output paths<a class="headerlink" href="#set-input-and-output-paths" title="Permalink to this headline">#</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># set paths</span>
-<span class="n">input_file_path</span> <span class="o">=</span> <span class="n">currentdir</span> <span class="o">+</span> <span class="sa">r</span><span class="s2">&quot;/HydroLogic_Inundation_toolbox/Data/Tol/input&quot;</span>
-<span class="n">output_file_path</span> <span class="o">=</span> <span class="n">currentdir</span> <span class="o">+</span> <span class="sa">r</span><span class="s2">&quot;/HydroLogic_Inundation_toolbox/Data/Tol/output&quot;</span>
-<span class="n">Path</span><span class="p">(</span><span class="n">output_file_path</span><span class="p">)</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">input_file_path</span> <span class="o">=</span> <span class="n">currentdir</span> <span class="o">+</span> <span class="sa">r</span><span class="s2">&quot;/HydroLogic_Inundation_toolbox/Data/Tol/input/1PT10_fou.nc&quot;</span>
+<span class="n">output_file_path</span> <span class="o">=</span> <span class="n">currentdir</span> <span class="o">+</span> <span class="sa">r</span><span class="s2">&quot;/HydroLogic_Inundation_toolbox/Data/Tol/output/fou.tiff&quot;</span>
+<span class="n">Path</span><span class="p">(</span><span class="n">currentdir</span> <span class="o">+</span> <span class="sa">r</span><span class="s2">&quot;/HydroLogic_Inundation_toolbox/Data/Tol/output&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 </div>
+</section>
+<section id="set-output-raster-options">
+<h2>3. Set output raster options<a class="headerlink" href="#set-output-raster-options" title="Permalink to this headline">#</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># raster options</span>
@@ -490,48 +545,62 @@ title="Print to PDF"
 </div>
 </div>
 </div>
-<section id="determine-maximum-water-depth-using-fou-file">
-<h2>Determine maximum water depth using fou file<a class="headerlink" href="#determine-maximum-water-depth-using-fou-file" title="Permalink to this headline">#</a></h2>
-<p>See <a class="reference external" href="https://hydrologicbv.github.io/D-HYDROLOGIC/fou_example_tol.html">https://hydrologicbv.github.io/D-HYDROLOGIC/fou_example_tol.html</a> for a usage example.</p>
-<ul class="simple">
-<li><p>1PT10_fou.nc</p></li>
-<li><p>variable: r”Mesh2d_fourier002_max_depth”</p></li>
-</ul>
+</section>
+<section id="read-meta-data-and-set-variable-to-read-from-fou-nc-file">
+<h2>4. Read meta-data and set variable to read from <a class="reference external" href="http://fou.nc">fou.nc</a> file<a class="headerlink" href="#read-meta-data-and-set-variable-to-read-from-fou-nc-file" title="Permalink to this headline">#</a></h2>
+<section id="todo-change-variable-to-other-options-from-list-and-update-figures-accordingly">
+<h3>TODO: change variable to other options from list, and update figures accordingly<a class="headerlink" href="#todo-change-variable-to-other-options-from-list-and-update-figures-accordingly" title="Permalink to this headline">#</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Add code</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">load_meta_data</span><span class="p">(</span><span class="n">input_file_path</span><span class="p">))</span>
+<span class="n">variable</span> <span class="o">=</span> <span class="sa">r</span><span class="s2">&quot;Mesh2d_fourier002_max_depth&quot;</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&#39;Mesh2d_flowelem_ba&#39;, &#39;Mesh2d_flowelem_bl&#39;, &#39;mesh1d_fourier001_mean&#39;, &#39;Mesh2d_fourier001_mean&#39;, &#39;mesh1d_fourier002_max&#39;, &#39;Mesh2d_fourier002_max&#39;, &#39;mesh1d_fourier002_max_depth&#39;, &#39;Mesh2d_fourier002_max_depth&#39;, &#39;mesh1d_fourier003_min&#39;, &#39;Mesh2d_fourier003_min&#39;, &#39;mesh1d_fourier003_min_depth&#39;, &#39;Mesh2d_fourier003_min_depth&#39;, &#39;mesh1d_fourier004_mean&#39;, &#39;Mesh2d_fourier004_mean&#39;, &#39;mesh1d_fourier005_max&#39;, &#39;Mesh2d_fourier005_max&#39;, &#39;mesh1d_fourier006_min&#39;, &#39;Mesh2d_fourier006_min&#39;]
 </pre></div>
 </div>
 </div>
 </div>
 </section>
-<section id="determine-arrival-time-using-clm-file">
-<h2>Determine arrival time using clm file<a class="headerlink" href="#determine-arrival-time-using-clm-file" title="Permalink to this headline">#</a></h2>
-<p>See <a class="reference external" href="https://hydrologicbv.github.io/D-HYDROLOGIC/clm_example_tol.html">https://hydrologicbv.github.io/D-HYDROLOGIC/clm_example_tol.html</a> for a usage example.</p>
-<ul class="simple">
-<li><p>1PT10_clm.nc</p></li>
-<li><p>variable: r”Mesh2d_waterdepth”</p></li>
-</ul>
+</section>
+<section id="load-fou-map-data-from-netcdf-file">
+<h2>5. Load fou-map data from NetCDF file<a class="headerlink" href="#load-fou-map-data-from-netcdf-file" title="Permalink to this headline">#</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Add code</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># load mesh coordinates and data from netCDF </span>
+<span class="n">node_data</span> <span class="o">=</span> <span class="n">load_fou_data</span><span class="p">(</span><span class="n">input_file_path</span><span class="p">,</span> <span class="n">variable</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 </div>
 </section>
-<section id="determine-final-water-depth-using-map-file">
-<h2>Determine final water depth using map file<a class="headerlink" href="#determine-final-water-depth-using-map-file" title="Permalink to this headline">#</a></h2>
-<p>See <a class="reference external" href="https://hydrologicbv.github.io/D-HYDROLOGIC/map_example_tol.html">https://hydrologicbv.github.io/D-HYDROLOGIC/map_example_tol.html</a> for a usage example.</p>
-<ul class="simple">
-<li><p>1PT10_map.nc</p></li>
-<li><p>variable: r”Mesh2d_waterdepth”</p></li>
-</ul>
+<section id="plot-maximum-water-depth">
+<h2>6. Plot maximum water depth<a class="headerlink" href="#plot-maximum-water-depth" title="Permalink to this headline">#</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Add code</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># convert to raster and save as tiff</span>
+<span class="n">_</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">grid_data</span> <span class="o">=</span> <span class="n">mesh_to_tiff</span><span class="p">(</span>
+    <span class="n">node_data</span><span class="p">,</span>
+    <span class="n">input_file_path</span><span class="p">,</span>
+    <span class="n">output_file_path</span><span class="p">,</span>
+    <span class="n">resolution</span><span class="p">,</span>
+    <span class="n">distance_tol</span><span class="p">,</span>
+    <span class="n">interpolation</span><span class="o">=</span><span class="n">interpolation</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">raster_plot_with_context</span><span class="p">(</span>
+    <span class="n">raster_path</span> <span class="o">=</span> <span class="n">output_file_path</span><span class="p">,</span> 
+    <span class="n">epsg</span> <span class="o">=</span> <span class="mi">28992</span><span class="p">,</span> 
+    <span class="n">clabel</span> <span class="o">=</span> <span class="s2">&quot;water depth (m)&quot;</span><span class="p">,</span> 
+    <span class="n">cmap</span> <span class="o">=</span> <span class="s2">&quot;Reds&quot;</span><span class="p">,</span> 
+    <span class="n">title</span> <span class="o">=</span> <span class="s2">&quot;Maximum water depth&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
 </pre></div>
 </div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/HYDROLIB_DEMO_12_0.png" src="_images/HYDROLIB_DEMO_12_0.png" />
 </div>
 </div>
 </section>
@@ -564,11 +633,11 @@ title="Print to PDF"
                 
     <!-- Previous / next buttons -->
 <div class='prev-next-area'>
-    <a class='left-prev' id="prev-link" href="flowmeshreader_api.html" title="previous page">
+    <a class='left-prev' id="prev-link" href="plotting_api.html" title="previous page">
         <i class="fas fa-angle-left"></i>
         <div class="prev-next-info">
             <p class="prev-next-subtitle">previous</p>
-            <p class="prev-next-title">Flowmeshreader api-doc</p>
+            <p class="prev-next-title">Plotting api-doc</p>
         </div>
     </a>
 </div>

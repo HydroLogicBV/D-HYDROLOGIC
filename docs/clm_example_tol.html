@@ -173,6 +173,11 @@ const thebe_selector_output = ".output, .cell_output"
    Flowmeshreader api-doc
   </a>
  </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="plotting_api.html">
+   Plotting api-doc
+  </a>
+ </li>
 </ul>
 <p aria-level="2" class="caption" role="heading">
  <span class="caption-text">
@@ -181,8 +186,8 @@ const thebe_selector_output = ".output, .cell_output"
 </p>
 <ul class="nav bd-sidenav">
  <li class="toctree-l1">
-  <a class="reference internal" href="HYDROLIB_demo.html">
-   Analysing example Tol
+  <a class="reference internal" href="HYDROLIB_DEMO.html">
+   Example for reading fou-file for example Tol
   </a>
  </li>
 </ul>
@@ -407,8 +412,8 @@ title="Print to PDF"
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#set-variable-to-read-from-clm-nc-file">
-   4. Set variable to read from clm.nc file
+  <a class="reference internal nav-link" href="#read-meta-data-and-set-variable-to-read-from-clm-nc-file">
+   4. Read meta-data and set variable to read from clm.nc file
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
@@ -471,8 +476,8 @@ title="Print to PDF"
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#set-variable-to-read-from-clm-nc-file">
-   4. Set variable to read from clm.nc file
+  <a class="reference internal nav-link" href="#read-meta-data-and-set-variable-to-read-from-clm-nc-file">
+   4. Read meta-data and set variable to read from clm.nc file
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
@@ -528,7 +533,7 @@ title="Print to PDF"
 <span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">currentdir</span> <span class="o">+</span> <span class="sa">r</span><span class="s2">&quot;/HydroLogic_Inundation_toolbox&quot;</span><span class="p">)</span>
 <span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">currentdir</span> <span class="o">+</span> <span class="sa">r</span><span class="s2">&quot;/HydroLogic_Inundation_toolbox/Readers&quot;</span><span class="p">)</span>
 
-<span class="kn">from</span> <span class="nn">flowmeshreader</span> <span class="kn">import</span> <span class="n">load_classmap_data</span><span class="p">,</span> <span class="n">mesh_to_tiff</span>
+<span class="kn">from</span> <span class="nn">flowmeshreader</span> <span class="kn">import</span> <span class="n">load_meta_data</span><span class="p">,</span> <span class="n">load_classmap_data</span><span class="p">,</span> <span class="n">mesh_to_tiff</span>
 <span class="kn">from</span> <span class="nn">inundation_toolbox</span> <span class="kn">import</span> <span class="n">arrival_times</span><span class="p">,</span> <span class="n">height_of_mrs</span><span class="p">,</span> <span class="n">rising_speeds</span>
 <span class="kn">from</span> <span class="nn">plotting</span> <span class="kn">import</span> <span class="n">raster_plot_with_context</span>
 </pre></div>
@@ -562,11 +567,17 @@ title="Print to PDF"
 </div>
 </div>
 </section>
-<section id="set-variable-to-read-from-clm-nc-file">
-<h2>4. Set variable to read from <a class="reference external" href="http://clm.nc">clm.nc</a> file<a class="headerlink" href="#set-variable-to-read-from-clm-nc-file" title="Permalink to this headline">#</a></h2>
+<section id="read-meta-data-and-set-variable-to-read-from-clm-nc-file">
+<h2>4. Read meta-data and set variable to read from <a class="reference external" href="http://clm.nc">clm.nc</a> file<a class="headerlink" href="#read-meta-data-and-set-variable-to-read-from-clm-nc-file" title="Permalink to this headline">#</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">variable</span> <span class="o">=</span> <span class="sa">r</span><span class="s2">&quot;Mesh2d_waterdepth&quot;</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">load_meta_data</span><span class="p">(</span><span class="n">input_file_path</span><span class="p">))</span>
+<span class="n">variable</span> <span class="o">=</span> <span class="sa">r</span><span class="s2">&quot;Mesh2d_waterdepth&quot;</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[&#39;Mesh2d_flowelem_ba&#39;, &#39;Mesh2d_flowelem_bl&#39;, &#39;Mesh2d_s1&#39;, &#39;Mesh2d_waterdepth&#39;, &#39;Mesh2d_ucmag&#39;, &#39;Mesh2d_ucdir&#39;]
 </pre></div>
 </div>
 </div>

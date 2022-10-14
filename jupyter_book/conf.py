@@ -36,3 +36,4 @@ import os
 import sys
 sys.path.insert(0, os.path.abspath('..\HydroLogic_Inundation_toolbox\Readers'))
 sys.path.insert(0, os.path.abspath('..\HydroLogic_Inundation_toolbox'))
+napoleon_custom_sections = [('Returns', 'params_style')]

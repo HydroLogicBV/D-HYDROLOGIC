@@ -36,7 +36,7 @@ def default_plot(dfs: List, variable: str, labels: List = None) -> None:
 
 def raster_plot_with_context(
     raster_path: str,
-    epsg: int,
+    epsg: int = 28992,
     basemap: bool = True,
     clabel: str = None,
     cmap: str = None,
@@ -45,7 +45,22 @@ def raster_plot_with_context(
     vmax: float = None,
 ) -> plt.figure:
     """
-    Plots
+    Function to create a plot from a tiff file
+
+    Args:
+        raster_path (str): location of tiff file
+        epsg (int): EPSG identifier of coordinate reference system. Default is EPSG:28992, Dutch RDS
+        basemap (bool): Whether to load a basemap or not
+        clabel (str): label for colorbar
+        cmap (str): string identifier for matplotlib colormap
+        title (str): title of plot
+        vmin (float): lower bound of colorbar
+        vmax (float): upper bound of colorbar
+
+    Returns:
+        fig (plt.Figure): matplotlib figure object
+        ax (plt.axis): matplotlib axis
+
     """
 
     kwargs = {}
@@ -86,6 +101,15 @@ def raster_plot_with_context(
 def north_arrow(ax: Axes, x: float = 0.95, y: float = 0.2, arrow_length: float = 0.1) -> Axes:
     """
     Adds a north arrow to a plot in axis ax
+
+    Args:
+        ax (Axes): axes to plot north arrow on
+        x (float): relative location of arrow on x-axis (0-1).
+        y (float): relative location of arrow on y-axis (0-1).
+        arrow_length (float): size of arrow.
+
+    Returns:
+        ax (Axes): axes on which north arrow was plotted
     """
     ax.annotate(
         "N",

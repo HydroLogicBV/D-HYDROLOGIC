@@ -4,8 +4,9 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Index &#8212; D-HydroLogic</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+    <title>Plotting api-doc &#8212; D-HydroLogic</title>
     
   <!-- Loaded before other Sphinx assets -->
   <link href="_static/styles/theme.css?digest=1999514e3f237ded88cf" rel="stylesheet">
@@ -49,8 +50,10 @@ const thebe_selector_input = "pre"
 const thebe_selector_output = ".output, .cell_output"
 </script>
     <script async="async" src="_static/sphinx-thebe.js"></script>
-    <link rel="index" title="Index" href="#" />
+    <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Example for reading fou-file for example Tol" href="HYDROLIB_DEMO.html" />
+    <link rel="prev" title="Flowmeshreader api-doc" href="flowmeshreader_api.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="None">
     
@@ -132,7 +135,7 @@ const thebe_selector_output = ".output, .cell_output"
   Inundation toolbox
  </span>
 </p>
-<ul class="nav bd-sidenav">
+<ul class="current nav bd-sidenav">
  <li class="toctree-l1 has-children">
   <a class="reference internal" href="inundationtoolbox.html">
    Usage examples
@@ -170,8 +173,8 @@ const thebe_selector_output = ".output, .cell_output"
    Flowmeshreader api-doc
   </a>
  </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="plotting_api.html">
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
    Plotting api-doc
   </a>
  </li>
@@ -277,7 +280,7 @@ title="Source repository"
       </li>
       
       <li>
-        <a href="https://github.com/HydroLogicBV/D-HYDROLOGIC//issues/new?title=Issue%20on%20page%20%2Fgenindex.html&body=Your%20issue%20content%20here."
+        <a href="https://github.com/HydroLogicBV/D-HYDROLOGIC//issues/new?title=Issue%20on%20page%20%2Fplotting_api.html&body=Your%20issue%20content%20here."
    class="headerbtn"
    data-toggle="tooltip"
 data-placement="left"
@@ -297,22 +300,105 @@ title="Open an issue"
   </div>
 </div>
 
+<div class="menu-dropdown menu-dropdown-download-buttons">
+  <button class="headerbtn menu-dropdown__trigger"
+      aria-label="Download this page">
+      <i class="fas fa-download"></i>
+  </button>
+  <div class="menu-dropdown__content">
+    <ul>
+      <li>
+        <a href="_sources/plotting_api.rst"
+   class="headerbtn"
+   data-toggle="tooltip"
+data-placement="left"
+title="Download source file"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="headerbtn__text-container">.rst</span>
+</a>
+
+      </li>
+      
+      <li>
+        
+<button onclick="printPdf(this)"
+  class="headerbtn"
+  data-toggle="tooltip"
+data-placement="left"
+title="Print to PDF"
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="headerbtn__text-container">.pdf</span>
+</button>
+
+      </li>
+      
+    </ul>
+  </div>
+</div>
+<label for="__page-toc"
+  class="headerbtn headerbtn-page-toc"
+  
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-list"></i>
+  </span>
+
+</label>
+
     </div>
 </div>
 
 <!-- Table of contents -->
 <div class="col-md-3 bd-toc show noprint">
+    <div class="tocsection onthispage pt-5 pb-3">
+        <i class="fas fa-list"></i> Contents
+    </div>
+    <nav id="bd-toc-nav" aria-label="Page">
+        <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#raster-plot-with-context">
+   raster_plot_with_context
+  </a>
+ </li>
+</ul>
+
+    </nav>
 </div>
     </div>
     <div class="article row">
         <div class="col pl-md-3 pl-lg-5 content-container">
             <!-- Table of contents that is only displayed when printing the page -->
             <div id="jb-print-docs-body" class="onlyprint">
-                <h1></h1>
+                <h1>Plotting api-doc</h1>
                 <!-- Table of contents -->
                 <div id="print-main-content">
                     <div id="jb-print-toc">
                         
+                        <div>
+                            <h2> Contents </h2>
+                        </div>
+                        <nav aria-label="Page">
+                            <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#raster-plot-with-context">
+   raster_plot_with_context
+  </a>
+ </li>
+</ul>
+
+                        </nav>
                     </div>
                 </div>
             </div>
@@ -320,146 +406,58 @@ title="Open an issue"
                 
               <div>
                 
+  <section id="plotting-api-doc">
+<h1>Plotting api-doc<a class="headerlink" href="#plotting-api-doc" title="Permalink to this headline">#</a></h1>
+<section id="raster-plot-with-context">
+<h2>raster_plot_with_context<a class="headerlink" href="#raster-plot-with-context" title="Permalink to this headline">#</a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="plotting.raster_plot_with_context">
+<span class="sig-prename descclassname"><span class="pre">plotting.</span></span><span class="sig-name descname"><span class="pre">raster_plot_with_context</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">raster_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">epsg</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">28992</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">basemap</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">clabel</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cmap</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">title</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vmin</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">vmax</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">matplotlib.pyplot.figure</span></span></span><a class="reference internal" href="_modules/plotting.html#raster_plot_with_context"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#plotting.raster_plot_with_context" title="Permalink to this definition">#</a></dt>
+<dd><p>Function to create a plot from a tiff file</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>raster_path</strong> (<em>str</em>) – location of tiff file</p></li>
+<li><p><strong>epsg</strong> (<em>int</em>) – EPSG identifier of coordinate reference system. Default is EPSG:28992, Dutch RDS</p></li>
+<li><p><strong>basemap</strong> (<em>bool</em>) – Whether to load a basemap or not</p></li>
+<li><p><strong>clabel</strong> (<em>str</em>) – label for colorbar</p></li>
+<li><p><strong>cmap</strong> (<em>str</em>) – string identifier for matplotlib colormap</p></li>
+<li><p><strong>title</strong> (<em>str</em>) – title of plot</p></li>
+<li><p><strong>vmin</strong> (<em>float</em>) – lower bound of colorbar</p></li>
+<li><p><strong>vmax</strong> (<em>float</em>) – upper bound of colorbar</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>fig</strong> (<em>plt.Figure</em>) – matplotlib figure object</p></li>
+<li><p><strong>ax</strong> (<em>plt.axis</em>) – matplotlib axis</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
 
-<h1 id="index">Index</h1>
+</section>
+</section>
 
-<div class="genindex-jumpbox">
- <a href="#_"><strong>_</strong></a>
- | <a href="#A"><strong>A</strong></a>
- | <a href="#C"><strong>C</strong></a>
- | <a href="#G"><strong>G</strong></a>
- | <a href="#H"><strong>H</strong></a>
- | <a href="#L"><strong>L</strong></a>
- | <a href="#M"><strong>M</strong></a>
- | <a href="#P"><strong>P</strong></a>
- | <a href="#R"><strong>R</strong></a>
- | <a href="#S"><strong>S</strong></a>
- | <a href="#W"><strong>W</strong></a>
- 
-</div>
-<h2 id="_">_</h2>
-<table style="width: 100%" class="indextable genindextable"><tr>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="hisreader_api.html#hisreader.HisResults.__inputdir">__inputdir (hisreader.HisResults attribute)</a>
-</li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="hisreader_api.html#hisreader.HisResults.__outputdir">__outputdir (hisreader.HisResults attribute)</a>
-</li>
-  </ul></td>
-</tr></table>
-
-<h2 id="A">A</h2>
-<table style="width: 100%" class="indextable genindextable"><tr>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="inundationtoolbox_api.html#inundation_toolbox.arrival_times">arrival_times() (in module inundation_toolbox)</a>
-</li>
-  </ul></td>
-</tr></table>
-
-<h2 id="C">C</h2>
-<table style="width: 100%" class="indextable genindextable"><tr>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="flowmeshreader_api.html#flowmeshreader.create_raster">create_raster() (in module flowmeshreader)</a>
-</li>
-  </ul></td>
-</tr></table>
-
-<h2 id="G">G</h2>
-<table style="width: 100%" class="indextable genindextable"><tr>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="flowmeshreader_api.html#flowmeshreader.get_bounds">get_bounds() (in module flowmeshreader)</a>
-</li>
-  </ul></td>
-</tr></table>
-
-<h2 id="H">H</h2>
-<table style="width: 100%" class="indextable genindextable"><tr>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="inundationtoolbox_api.html#inundation_toolbox.height_of_mrs">height_of_mrs() (in module inundation_toolbox)</a>
-</li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="hisreader_api.html#hisreader.HisResults">HisResults (class in hisreader)</a>
-</li>
-  </ul></td>
-</tr></table>
-
-<h2 id="L">L</h2>
-<table style="width: 100%" class="indextable genindextable"><tr>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="flowmeshreader_api.html#flowmeshreader.load_classmap_data">load_classmap_data() (in module flowmeshreader)</a>
-</li>
-      <li><a href="flowmeshreader_api.html#flowmeshreader.load_data">load_data() (in module flowmeshreader)</a>
-</li>
-      <li><a href="flowmeshreader_api.html#flowmeshreader.load_fou_data">load_fou_data() (in module flowmeshreader)</a>
-</li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="flowmeshreader_api.html#flowmeshreader.load_map_data">load_map_data() (in module flowmeshreader)</a>
-</li>
-      <li><a href="flowmeshreader_api.html#flowmeshreader.load_mesh">load_mesh() (in module flowmeshreader)</a>
-</li>
-      <li><a href="flowmeshreader_api.html#flowmeshreader.load_meta_data">load_meta_data() (in module flowmeshreader)</a>
-</li>
-  </ul></td>
-</tr></table>
-
-<h2 id="M">M</h2>
-<table style="width: 100%" class="indextable genindextable"><tr>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="flowmeshreader_api.html#flowmeshreader.mesh_data_to_raster">mesh_data_to_raster() (in module flowmeshreader)</a>
-</li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="flowmeshreader_api.html#flowmeshreader.mesh_to_tiff">mesh_to_tiff() (in module flowmeshreader)</a>
-</li>
-  </ul></td>
-</tr></table>
-
-<h2 id="P">P</h2>
-<table style="width: 100%" class="indextable genindextable"><tr>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="hisreader_api.html#hisreader.HisResults.parse_structures">parse_structures() (hisreader.HisResults method)</a>
-</li>
-  </ul></td>
-</tr></table>
-
-<h2 id="R">R</h2>
-<table style="width: 100%" class="indextable genindextable"><tr>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="plotting_api.html#plotting.raster_plot_with_context">raster_plot_with_context() (in module plotting)</a>
-</li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="hisreader_api.html#hisreader.HisResults.read_all_netcdf_variables">read_all_netcdf_variables() (hisreader.HisResults method)</a>
-</li>
-      <li><a href="inundationtoolbox_api.html#inundation_toolbox.rising_speeds">rising_speeds() (in module inundation_toolbox)</a>
-</li>
-  </ul></td>
-</tr></table>
-
-<h2 id="S">S</h2>
-<table style="width: 100%" class="indextable genindextable"><tr>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="hisreader_api.html#hisreader.HisResults.structure_types">structure_types (hisreader.HisResults attribute)</a>
-</li>
-  </ul></td>
-</tr></table>
-
-<h2 id="W">W</h2>
-<table style="width: 100%" class="indextable genindextable"><tr>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="hisreader_api.html#hisreader.HisResults.write_csv">write_csv() (hisreader.HisResults method)</a>
-</li>
-  </ul></td>
-  <td style="width: 33%; vertical-align: top;"><ul>
-      <li><a href="flowmeshreader_api.html#flowmeshreader.write_tiff">write_tiff() (in module flowmeshreader)</a>
-</li>
-  </ul></td>
-</tr></table>
-
-
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            kernelName: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
 
               </div>
               
@@ -468,6 +466,20 @@ title="Open an issue"
                 
     <!-- Previous / next buttons -->
 <div class='prev-next-area'>
+    <a class='left-prev' id="prev-link" href="flowmeshreader_api.html" title="previous page">
+        <i class="fas fa-angle-left"></i>
+        <div class="prev-next-info">
+            <p class="prev-next-subtitle">previous</p>
+            <p class="prev-next-title">Flowmeshreader api-doc</p>
+        </div>
+    </a>
+    <a class='right-next' id="next-link" href="HYDROLIB_DEMO.html" title="next page">
+    <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Example for reading fou-file for example Tol</p>
+    </div>
+    <i class="fas fa-angle-right"></i>
+    </a>
 </div>
             </footer>
         </div>

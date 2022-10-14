@@ -18,6 +18,7 @@ parts:
         
     - file: inundationtoolbox_api
     - file: flowmeshreader_api
+    - file: plotting_api
   - caption: HYDROLIB demo
     chapters:
-    - file: HYDROLIB_demo
+    - file: HYDROLIB_DEMO

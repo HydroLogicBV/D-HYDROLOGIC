@@ -1,4 +1,4 @@
-from typing import Tuple
+from typing import List, Tuple
 
 import numpy as np
 import rasterio
@@ -37,6 +37,29 @@ def load_mesh(input_file_path: str) -> Tuple[np.ndarray, np.ndarray]:
             node_y = np.asarray(nc.variables[r"Mesh2d_face_y"][:]).flatten()
 
     return node_x, node_y
+
+
+def load_meta_data(input_file_path) -> List:
+    """
+    Retrieves the svariables from the netCDF file at input_file_path
+
+    Args:
+        input_file_path (str): path to the input file
+
+    Returns:
+        List: list of variables that can be read.
+    """
+    variables = []
+
+    with Dataset(input_file_path) as nc:
+        for variable in nc.variables:
+            if not hasattr(nc.variables[variable], "coordinates"):
+                continue
+
+            if ("Mesh2d_face_x Mesh2d_face_y" in nc.variables[variable].coordinates) or ("mesh2d_face_x mesh2d_face_y" in nc.variables[variable].coordinates):
+                variables.append(variable)
+
+    return variables
 
 
 def load_data(input_file_path: str, variable: str) -> np.ndarray:

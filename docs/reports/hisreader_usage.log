@@ -1,0 +1,86 @@
+Traceback (most recent call last):
+  File "C:\Users\Koen.Reef\Miniconda3\envs\DHYDROLIB\lib\site-packages\jupyter_cache\executors\utils.py", line 51, in single_nb_execution
+    executenb(
+  File "C:\Users\Koen.Reef\Miniconda3\envs\DHYDROLIB\lib\site-packages\nbclient\client.py", line 1204, in execute
+    return NotebookClient(nb=nb, resources=resources, km=km, **kwargs).execute()
+  File "C:\Users\Koen.Reef\Miniconda3\envs\DHYDROLIB\lib\site-packages\nbclient\util.py", line 84, in wrapped
+    return just_run(coro(*args, **kwargs))
+  File "C:\Users\Koen.Reef\Miniconda3\envs\DHYDROLIB\lib\site-packages\nbclient\util.py", line 62, in just_run
+    return loop.run_until_complete(coro)
+  File "C:\Users\Koen.Reef\Miniconda3\envs\DHYDROLIB\lib\asyncio\base_events.py", line 646, in run_until_complete
+    return future.result()
+  File "C:\Users\Koen.Reef\Miniconda3\envs\DHYDROLIB\lib\site-packages\nbclient\client.py", line 663, in async_execute
+    await self.async_execute_cell(
+  File "C:\Users\Koen.Reef\Miniconda3\envs\DHYDROLIB\lib\site-packages\nbclient\client.py", line 965, in async_execute_cell
+    await self._check_raise_for_error(cell, cell_index, exec_reply)
+  File "C:\Users\Koen.Reef\Miniconda3\envs\DHYDROLIB\lib\site-packages\nbclient\client.py", line 862, in _check_raise_for_error
+    raise CellExecutionError.from_cell_and_msg(cell, exec_reply_content)
+nbclient.exceptions.CellExecutionError: An error occurred while executing the following cell:
+------------------
+import os
+import sys 
+
+currentdir = os.path.dirname(os.getcwd())
+sys.path.append(currentdir + "/HydroLogic_Inundation_toolbox/Readers")
+
+from hisreader import HisResults
+------------------
+
+[1;31m---------------------------------------------------------------------------[0m
+[1;31mImportError[0m                               Traceback (most recent call last)
+Input [1;32mIn [1][0m, in [0;36m<cell line: 7>[1;34m()[0m
+[0;32m      4[0m currentdir [38;5;241m=[39m os[38;5;241m.[39mpath[38;5;241m.[39mdirname(os[38;5;241m.[39mgetcwd())
+[0;32m      5[0m sys[38;5;241m.[39mpath[38;5;241m.[39mappend(currentdir [38;5;241m+[39m [38;5;124m"[39m[38;5;124m/HydroLogic_Inundation_toolbox/Readers[39m[38;5;124m"[39m)
+[1;32m----> 7[0m [38;5;28;01mfrom[39;00m [38;5;21;01mhisreader[39;00m [38;5;28;01mimport[39;00m HisResults
+
+File [1;32mD:\Work\git\D-HYDROLOGIC/HydroLogic_Inundation_toolbox/Readers\hisreader.py:20[0m, in [0;36m<module>[1;34m[0m
+[0;32m     17[0m [38;5;28;01mimport[39;00m [38;5;21;01mpandas[39;00m [38;5;28;01mas[39;00m [38;5;21;01mpd[39;00m
+[0;32m     18[0m [38;5;28;01mfrom[39;00m [38;5;21;01mpydantic[39;00m [38;5;28;01mimport[39;00m BaseModel
+[1;32m---> 20[0m [38;5;28;01mfrom[39;00m [38;5;21;01mplotting[39;00m [38;5;28;01mimport[39;00m default_plot
+[0;32m     22[0m PandasDataFrame [38;5;241m=[39m TypeVar([38;5;124m"[39m[38;5;124mpandas.core.frame.DataFrame[39m[38;5;124m"[39m)
+[0;32m     23[0m STRUCTURE_TYPES [38;5;241m=[39m [[38;5;124m"[39m[38;5;124mstation[39m[38;5;124m"[39m, [38;5;124m"[39m[38;5;124mweirgen[39m[38;5;124m"[39m]
+
+File [1;32mD:\Work\git\D-HYDROLOGIC/HydroLogic_Inundation_toolbox/Readers\plotting.py:3[0m, in [0;36m<module>[1;34m[0m
+[0;32m      1[0m [38;5;28;01mfrom[39;00m [38;5;21;01mtyping[39;00m [38;5;28;01mimport[39;00m List
+[1;32m----> 3[0m [38;5;28;01mimport[39;00m [38;5;21;01mcontextily[39;00m [38;5;28;01mas[39;00m [38;5;21;01mctx[39;00m
+[0;32m      4[0m [38;5;28;01mimport[39;00m [38;5;21;01mmatplotlib[39;00m[38;5;21;01m.[39;00m[38;5;21;01mpyplot[39;00m [38;5;28;01mas[39;00m [38;5;21;01mplt[39;00m
+[0;32m      5[0m [38;5;28;01mimport[39;00m [38;5;21;01mrasterio[39;00m
+
+File [1;32m~\Miniconda3\lib\site-packages\contextily\__init__.py:6[0m, in [0;36m<module>[1;34m[0m
+[0;32m      1[0m [38;5;124;03m"""[39;00m
+[0;32m      2[0m [38;5;124;03m`contextily`: create context with map tiles in Python[39;00m
+[0;32m      3[0m [38;5;124;03m"""[39;00m
+[0;32m      5[0m [38;5;28;01mimport[39;00m [38;5;21;01mxyzservices[39;00m[38;5;21;01m.[39;00m[38;5;21;01mproviders[39;00m [38;5;28;01mas[39;00m [38;5;21;01mproviders[39;00m
+[1;32m----> 6[0m [38;5;28;01mfrom[39;00m [38;5;21;01m.[39;00m[38;5;21;01mplace[39;00m [38;5;28;01mimport[39;00m Place, plot_map
+[0;32m      7[0m [38;5;28;01mfrom[39;00m [38;5;21;01m.[39;00m[38;5;21;01mtile[39;00m [38;5;28;01mimport[39;00m [38;5;241m*[39m
+[0;32m      8[0m [38;5;28;01mfrom[39;00m [38;5;21;01m.[39;00m[38;5;21;01mplotting[39;00m [38;5;28;01mimport[39;00m add_basemap, add_attribution
+
+File [1;32m~\Miniconda3\lib\site-packages\contextily\place.py:7[0m, in [0;36m<module>[1;34m[0m
+[0;32m      4[0m [38;5;28;01mimport[39;00m [38;5;21;01mmatplotlib[39;00m[38;5;21;01m.[39;00m[38;5;21;01mpyplot[39;00m [38;5;28;01mas[39;00m [38;5;21;01mplt[39;00m
+[0;32m      5[0m [38;5;28;01mimport[39;00m [38;5;21;01mwarnings[39;00m
+[1;32m----> 7[0m [38;5;28;01mfrom[39;00m [38;5;21;01m.[39;00m[38;5;21;01mtile[39;00m [38;5;28;01mimport[39;00m howmany, bounds2raster, bounds2img, _sm2ll, _calculate_zoom
+[0;32m      8[0m [38;5;28;01mfrom[39;00m [38;5;21;01m.[39;00m[38;5;21;01mplotting[39;00m [38;5;28;01mimport[39;00m INTERPOLATION, ZOOM, add_attribution
+[0;32m      9[0m [38;5;28;01mfrom[39;00m [38;5;21;01m.[39;00m [38;5;28;01mimport[39;00m providers
+
+File [1;32m~\Miniconda3\lib\site-packages\contextily\tile.py:16[0m, in [0;36m<module>[1;34m[0m
+[0;32m     13[0m [38;5;28;01mimport[39;00m [38;5;21;01mwarnings[39;00m
+[0;32m     15[0m [38;5;28;01mimport[39;00m [38;5;21;01mnumpy[39;00m [38;5;28;01mas[39;00m [38;5;21;01mnp[39;00m
+[1;32m---> 16[0m [38;5;28;01mimport[39;00m [38;5;21;01mrasterio[39;00m [38;5;28;01mas[39;00m [38;5;21;01mrio[39;00m
+[0;32m     17[0m [38;5;28;01mfrom[39;00m [38;5;21;01mPIL[39;00m [38;5;28;01mimport[39;00m Image
+[0;32m     18[0m [38;5;28;01mfrom[39;00m [38;5;21;01mjoblib[39;00m [38;5;28;01mimport[39;00m Memory [38;5;28;01mas[39;00m _Memory
+
+File [1;32m~\Miniconda3\lib\site-packages\rasterio\__init__.py:9[0m, in [0;36m<module>[1;34m[0m
+[0;32m      6[0m [38;5;28;01mfrom[39;00m [38;5;21;01mlogging[39;00m [38;5;28;01mimport[39;00m NullHandler
+[0;32m      7[0m [38;5;28;01mfrom[39;00m [38;5;21;01mpathlib[39;00m [38;5;28;01mimport[39;00m Path
+[1;32m----> 9[0m [38;5;28;01mfrom[39;00m [38;5;21;01mrasterio[39;00m[38;5;21;01m.[39;00m[38;5;21;01m_base[39;00m [38;5;28;01mimport[39;00m gdal_version
+[0;32m     10[0m [38;5;28;01mfrom[39;00m [38;5;21;01mrasterio[39;00m[38;5;21;01m.[39;00m[38;5;21;01mdrivers[39;00m [38;5;28;01mimport[39;00m driver_from_extension, is_blacklisted
+[0;32m     11[0m [38;5;28;01mfrom[39;00m [38;5;21;01mrasterio[39;00m[38;5;21;01m.[39;00m[38;5;21;01mdtypes[39;00m [38;5;28;01mimport[39;00m (
+[0;32m     12[0m     bool_,
+[0;32m     13[0m     ubyte,
+[1;32m   (...)[0m
+[0;32m     25[0m     check_dtype,
+[0;32m     26[0m )
+
+[1;31mImportError[0m: DLL load failed while importing _base: The specified procedure could not be found.
+ImportError: DLL load failed while importing _base: The specified procedure could not be found.
+

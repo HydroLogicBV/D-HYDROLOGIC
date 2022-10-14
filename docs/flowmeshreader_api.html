@@ -52,7 +52,7 @@ const thebe_selector_output = ".output, .cell_output"
     <script async="async" src="_static/sphinx-thebe.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Analysing example Tol" href="HYDROLIB_demo.html" />
+    <link rel="next" title="Plotting api-doc" href="plotting_api.html" />
     <link rel="prev" title="Inundation toolbox api-doc" href="inundationtoolbox_api.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="None">
@@ -173,6 +173,11 @@ const thebe_selector_output = ".output, .cell_output"
    Flowmeshreader api-doc
   </a>
  </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="plotting_api.html">
+   Plotting api-doc
+  </a>
+ </li>
 </ul>
 <p aria-level="2" class="caption" role="heading">
  <span class="caption-text">
@@ -181,8 +186,8 @@ const thebe_selector_output = ".output, .cell_output"
 </p>
 <ul class="nav bd-sidenav">
  <li class="toctree-l1">
-  <a class="reference internal" href="HYDROLIB_demo.html">
-   Analysing example Tol
+  <a class="reference internal" href="HYDROLIB_DEMO.html">
+   Example for reading fou-file for example Tol
   </a>
  </li>
 </ul>
@@ -368,6 +373,11 @@ title="Print to PDF"
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#load-meta-data">
+   load_meta_data
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#load-data">
    load_data
   </a>
@@ -434,6 +444,11 @@ title="Print to PDF"
  <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#load-mesh">
    load_mesh
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#load-meta-data">
+   load_meta_data
   </a>
  </li>
  <li class="toc-h2 nav-item toc-entry">
@@ -504,11 +519,27 @@ title="Print to PDF"
 <dd class="field-odd"><p><strong>input_file_path</strong> (<em>str</em>) – path to the input file</p>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p>x-coordinates of the mesh nodes faces
-node_y (np.ndarray): y-coordinates of the mesh nodes faces</p>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>node_x</strong> (<em>np.ndarray</em>) – x-coordinates of the mesh nodes faces</p></li>
+<li><p><strong>node_y</strong> (<em>np.ndarray</em>) – y-coordinates of the mesh nodes faces</p></li>
+</ul>
 </dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>node_x (np.ndarray)</p>
+</dl>
+</dd></dl>
+
+</section>
+<section id="load-meta-data">
+<h2>load_meta_data<a class="headerlink" href="#load-meta-data" title="Permalink to this headline">#</a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="flowmeshreader.load_meta_data">
+<span class="sig-prename descclassname"><span class="pre">flowmeshreader.</span></span><span class="sig-name descname"><span class="pre">load_meta_data</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">input_file_path</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span></span></span><a class="reference internal" href="_modules/flowmeshreader.html#load_meta_data"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#flowmeshreader.load_meta_data" title="Permalink to this definition">#</a></dt>
+<dd><p>Retrieves the svariables from the netCDF file at input_file_path</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>input_file_path</strong> (<em>str</em>) – path to the input file</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>List</strong> – list of variables that can be read.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -528,10 +559,7 @@ node_y (np.ndarray): y-coordinates of the mesh nodes faces</p>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p>data at the mesh nodes</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>data (np.ndarray)</p>
+<dd class="field-even"><p><strong>data</strong> (<em>np.ndarray</em>) – data at the mesh nodes</p>
 </dd>
 </dl>
 </dd></dl>
@@ -551,10 +579,7 @@ node_y (np.ndarray): y-coordinates of the mesh nodes faces</p>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p>data at the mesh nodes</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>data (np.ndarray)</p>
+<dd class="field-even"><p><strong>data</strong> (<em>np.ndarray</em>) – data at the mesh nodes</p>
 </dd>
 </dl>
 </dd></dl>
@@ -575,10 +600,7 @@ Also restores original dimensions</p>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p>data at the mesh nodes (time, spatial)</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>map_data (np.ndarray)</p>
+<dd class="field-even"><p><strong>map_data</strong> (<em>np.ndarray</em>) – data at the mesh nodes (time, spatial)</p>
 </dd>
 </dl>
 </dd></dl>
@@ -603,11 +625,10 @@ Regardless, the lass class will take the lower bound as it goes to infinity</p><
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p>classmap data at the mesh nodes (time, spatial)
-map_data (np.ndarray): filled classmap data at the mesh nodes, using class definition (time, spatial)</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>clm_data (np.ndarray)</p>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>clm_data</strong> (<em>np.ndarray</em>) – classmap data at the mesh nodes (time, spatial)</p></li>
+<li><p><strong>map_data</strong> (<em>np.ndarray</em>) – filled classmap data at the mesh nodes, using class definition (time, spatial)</p></li>
+</ul>
 </dd>
 </dl>
 </dd></dl>
@@ -632,12 +653,11 @@ to 105% of the extend of the nodes face coordinates</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p>x-coordinates of the raster points
-grid_y (np.ndarray): y-coordinates of the raster points
-bounds (np.ndarray): outermost coordinates of the raster (west, east, south, north)</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>grid_x (np.ndarray)</p>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>grid_x</strong> (<em>np.ndarray</em>) – x-coordinates of the raster points</p></li>
+<li><p><strong>grid_y</strong> (<em>np.ndarray</em>) – y-coordinates of the raster points</p></li>
+<li><p><strong>bounds</strong> (<em>np.ndarray</em>) – outermost coordinates of the raster (west, east, south, north)</p></li>
+</ul>
 </dd>
 </dl>
 </dd></dl>
@@ -662,11 +682,10 @@ to 105% of the extend of the nodes face coordinates</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p>outermost coordinates of the raster (west, east, south, north)
-n_cells(np.ndarray): number of cells in x and y direction (x, y)</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>bounds (np.ndarray)</p>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>bounds</strong> (<em>np.ndarray</em>) – outermost coordinates of the raster (west, east, south, north)</p></li>
+<li><p><strong>n_cells</strong> (<em>np.ndarray</em>) – number of cells in x and y direction (x, y)</p></li>
+</ul>
 </dd>
 </dl>
 </dd></dl>
@@ -697,14 +716,8 @@ Otherwise the convex hull of the mesh is interpolated, resulting in potentially 
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p><dl class="simple">
-<dt>data at raster points. Is NaN at points further from mesh node than distance_tol, if distance_tol &gt; 0.</dt><dd><p>Otherwise, raster points are interpolated according to scipy.spatial.griddata, stopping at the mesh’s convex hull</p>
-</dd>
-</dl>
-</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>new_grid_data/grid_data (np.ndarray)</p>
+<dd class="field-even"><p><strong>new_grid_data/grid_data</strong> (<em>np.ndarray</em>) – data at raster points. Is NaN at points further from mesh node than distance_tol, if distance_tol &gt; 0.
+Otherwise, raster points are interpolated according to scipy.spatial.griddata, stopping at the mesh’s convex hull</p>
 </dd>
 </dl>
 </dd></dl>
@@ -726,7 +739,7 @@ Otherwise the convex hull of the mesh is interpolated, resulting in potentially 
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p>None</p>
+<dd class="field-even"><p><strong>None</strong></p>
 </dd>
 </dl>
 </dd></dl>
@@ -751,12 +764,11 @@ The mesh data should be a 1D array, with the same size as the coordinates in the
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
-<dd class="field-even"><p>grid with x-coordinates of raster
-grid_y (np.ndarray): grid with y-coordinates of raster
-new_grid_data (np.ndarray): new_grid_data</p>
-</dd>
-<dt class="field-odd">Return type</dt>
-<dd class="field-odd"><p>grid_x (np.ndarray)</p>
+<dd class="field-even"><ul class="simple">
+<li><p><strong>grid_x</strong> (<em>np.ndarray</em>) – grid with x-coordinates of raster</p></li>
+<li><p><strong>grid_y</strong> (<em>np.ndarray</em>) – grid with y-coordinates of raster</p></li>
+<li><p><strong>new_grid_data</strong> (<em>np.ndarray</em>) – new_grid_data</p></li>
+</ul>
 </dd>
 </dl>
 </dd></dl>
@@ -798,10 +810,10 @@ new_grid_data (np.ndarray): new_grid_data</p>
             <p class="prev-next-title">Inundation toolbox api-doc</p>
         </div>
     </a>
-    <a class='right-next' id="next-link" href="HYDROLIB_demo.html" title="next page">
+    <a class='right-next' id="next-link" href="plotting_api.html" title="next page">
     <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Analysing example Tol</p>
+        <p class="prev-next-title">Plotting api-doc</p>
     </div>
     <i class="fas fa-angle-right"></i>
     </a>

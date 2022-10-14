@@ -5,6 +5,10 @@ load_mesh
 ^^^^^^^^^
 .. autofunction:: flowmeshreader.load_mesh
 
+load_meta_data
+^^^^^^^^^^^^^^
+.. autofunction:: flowmeshreader.load_meta_data
+
 load_data
 ^^^^^^^^^
 .. autofunction:: flowmeshreader.load_data
