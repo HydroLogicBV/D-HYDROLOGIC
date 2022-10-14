@@ -15,8 +15,9 @@ parts:
       - file: clm_example_tol
       - file: fou_example_tol
       - file: map_example_tol
-      - file: clm_example_zwolle
-      - file: fou_example_zwolle
         
     - file: inundationtoolbox_api
     - file: flowmeshreader_api
+  - caption: HYDROLIB demo
+    chapters:
+    - file: HYDROLIB_demo

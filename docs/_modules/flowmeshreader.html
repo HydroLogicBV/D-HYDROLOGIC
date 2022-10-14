@@ -135,7 +135,7 @@ const thebe_selector_output = ".output, .cell_output"
 <ul class="nav bd-sidenav">
  <li class="toctree-l1 has-children">
   <a class="reference internal" href="../inundationtoolbox.html">
-   Usage
+   Usage examples
   </a>
   <input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/>
   <label for="toctree-checkbox-1">
@@ -158,16 +158,6 @@ const thebe_selector_output = ".output, .cell_output"
      Example for reading map-file for example Tol
     </a>
    </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="../clm_example_zwolle.html">
-     Example for reading clm-file for example Zwolle
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="../fou_example_zwolle.html">
-     Example for reading fou-file for example Zwolle
-    </a>
-   </li>
   </ul>
  </li>
  <li class="toctree-l1">
@@ -178,6 +168,18 @@ const thebe_selector_output = ".output, .cell_output"
  <li class="toctree-l1">
   <a class="reference internal" href="../flowmeshreader_api.html">
    Flowmeshreader api-doc
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  HYDROLIB demo
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="../HYDROLIB_demo.html">
+   Analysing example Tol
   </a>
  </li>
 </ul>
@@ -320,6 +322,7 @@ title="Open an issue"
 <span class="kn">import</span> <span class="nn">rasterio</span>
 <span class="kn">from</span> <span class="nn">netCDF4</span> <span class="kn">import</span> <span class="n">Dataset</span>
 <span class="kn">from</span> <span class="nn">rasterio.crs</span> <span class="kn">import</span> <span class="n">CRS</span>
+<span class="kn">from</span> <span class="nn">rasterio.errors</span> <span class="kn">import</span> <span class="n">CRSError</span>
 <span class="kn">from</span> <span class="nn">rasterio.transform</span> <span class="kn">import</span> <span class="n">from_bounds</span>
 <span class="kn">from</span> <span class="nn">scipy.interpolate</span> <span class="kn">import</span> <span class="n">griddata</span><span class="p">,</span> <span class="n">interp1d</span>
 <span class="kn">from</span> <span class="nn">scipy.spatial</span> <span class="kn">import</span> <span class="n">KDTree</span>
@@ -434,7 +437,7 @@ title="Open an issue"
 
 
 <div class="viewcode-block" id="load_classmap_data"><a class="viewcode-back" href="../flowmeshreader_api.html#flowmeshreader.load_classmap_data">[docs]</a><span class="k">def</span> <span class="nf">load_classmap_data</span><span class="p">(</span>
-    <span class="n">input_file_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">variable</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">method</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;average&quot;</span>
+    <span class="n">input_file_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">variable</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">method</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;average&quot;</span><span class="p">,</span> <span class="n">ret_map_data</span><span class="o">=</span><span class="kc">True</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Retrieves the selected mesh data (i.e. variable) from the .clm netCDF file at input_file_path</span>
@@ -480,17 +483,19 @@ title="Open an issue"
     <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">class_bounds</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">+</span> <span class="mi">1</span>  <span class="c1"># classes are 1 indexed</span>
     <span class="n">y</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">class_bounds</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>  <span class="c1"># use lower bound for last class, as it goes to infinity</span>
 
-    <span class="c1"># &#39;interpolate&#39; -&gt; we only querry at the points provided so no real interpolation is taking place. Done for convenience</span>
-    <span class="n">f</span> <span class="o">=</span> <span class="n">interp1d</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">bounds_error</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">fill_value</span><span class="o">=</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">))</span>
-    <span class="n">map_data</span> <span class="o">=</span> <span class="n">f</span><span class="p">(</span><span class="n">clm_data</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">ret_map_data</span><span class="p">:</span>
+        <span class="c1"># &#39;interpolate&#39; -&gt; we only querry at the points provided so no real interpolation is taking place. Done for convenience</span>
+        <span class="n">f</span> <span class="o">=</span> <span class="n">interp1d</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">bounds_error</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">fill_value</span><span class="o">=</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">))</span>
+        <span class="n">map_data</span> <span class="o">=</span> <span class="n">f</span><span class="p">(</span><span class="n">clm_data</span><span class="p">)</span>
 
     <span class="c1"># Reshape data using dimensions from netCDF input file (time, spatial)</span>
     <span class="n">map_dim</span> <span class="o">=</span> <span class="n">nc</span><span class="o">.</span><span class="n">variables</span><span class="p">[</span><span class="n">variable</span><span class="p">]</span><span class="o">.</span><span class="n">get_dims</span><span class="p">()</span>
     <span class="n">map_dims</span> <span class="o">=</span> <span class="p">(</span><span class="n">map_dim</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">size</span><span class="p">,</span> <span class="n">map_dim</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">size</span><span class="p">)</span>
 
-    <span class="n">clm_data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">clm_data</span><span class="p">,</span> <span class="n">map_dims</span><span class="p">)</span>
-    <span class="n">map_data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">map_data</span><span class="p">,</span> <span class="n">map_dims</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">ret_map_data</span><span class="p">:</span>
+        <span class="n">map_data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">map_data</span><span class="p">,</span> <span class="n">map_dims</span><span class="p">)</span>
 
+    <span class="n">clm_data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">clm_data</span><span class="p">,</span> <span class="n">map_dims</span><span class="p">)</span>
     <span class="n">nc</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>  <span class="c1"># close file</span>
     <span class="k">return</span> <span class="n">clm_data</span><span class="p">,</span> <span class="n">map_data</span></div>
 
@@ -526,7 +531,7 @@ title="Open an issue"
     <span class="k">return</span> <span class="n">grid_x</span><span class="p">,</span> <span class="n">grid_y</span><span class="p">,</span> <span class="n">bounds</span></div>
 
 
-<span class="k">def</span> <span class="nf">get_bounds</span><span class="p">(</span>
+<div class="viewcode-block" id="get_bounds"><a class="viewcode-back" href="../flowmeshreader_api.html#flowmeshreader.get_bounds">[docs]</a><span class="k">def</span> <span class="nf">get_bounds</span><span class="p">(</span>
     <span class="n">node_x</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">node_y</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">resolution</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">margin</span><span class="p">:</span> <span class="nb">float</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
@@ -545,6 +550,7 @@ title="Open an issue"
 <span class="sd">        bounds (np.ndarray): outermost coordinates of the raster (west, east, south, north)</span>
 <span class="sd">        n_cells(np.ndarray): number of cells in x and y direction (x, y)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
+
     <span class="c1"># Determine span of nodes</span>
     <span class="n">span_x</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">node_x</span><span class="p">)</span> <span class="o">-</span> <span class="nb">min</span><span class="p">(</span><span class="n">node_x</span><span class="p">)</span>
     <span class="n">span_y</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">node_y</span><span class="p">)</span> <span class="o">-</span> <span class="nb">min</span><span class="p">(</span><span class="n">node_y</span><span class="p">)</span>
@@ -572,7 +578,7 @@ title="Open an issue"
     <span class="n">bounds</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">min_x</span><span class="p">,</span> <span class="n">max_x</span><span class="p">,</span> <span class="n">min_y</span><span class="p">,</span> <span class="n">max_y</span><span class="p">])</span>
     <span class="n">n_cells</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">n_cells_x</span><span class="p">,</span> <span class="n">n_cells_y</span><span class="p">])</span>
 
-    <span class="k">return</span> <span class="n">bounds</span><span class="p">,</span> <span class="n">n_cells</span>
+    <span class="k">return</span> <span class="n">bounds</span><span class="p">,</span> <span class="n">n_cells</span></div>
 
 
 <div class="viewcode-block" id="mesh_data_to_raster"><a class="viewcode-back" href="../flowmeshreader_api.html#flowmeshreader.mesh_data_to_raster">[docs]</a><span class="k">def</span> <span class="nf">mesh_data_to_raster</span><span class="p">(</span>
@@ -654,7 +660,10 @@ title="Open an issue"
         <span class="n">width</span><span class="o">=</span><span class="n">new_grid_data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
         <span class="n">height</span><span class="o">=</span><span class="n">new_grid_data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span>
     <span class="p">)</span>
-    <span class="n">raster_crs</span> <span class="o">=</span> <span class="n">CRS</span><span class="o">.</span><span class="n">from_epsg</span><span class="p">(</span><span class="n">epsg</span><span class="p">)</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">raster_crs</span> <span class="o">=</span> <span class="n">CRS</span><span class="o">.</span><span class="n">from_epsg</span><span class="p">(</span><span class="n">epsg</span><span class="p">)</span>
+    <span class="k">except</span> <span class="n">CRSError</span><span class="p">:</span>
+        <span class="n">raster_crs</span> <span class="o">=</span> <span class="n">CRS</span><span class="o">.</span><span class="n">from_epsg</span><span class="p">(</span><span class="mi">28992</span><span class="p">)</span>
 
     <span class="n">t_file</span> <span class="o">=</span> <span class="n">rasterio</span><span class="o">.</span><span class="n">open</span><span class="p">(</span>
         <span class="n">output_file_path</span><span class="p">,</span>

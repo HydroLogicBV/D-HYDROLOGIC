@@ -9,13 +9,15 @@ Created on Fri May 13th 2022
 # Import
 # =============================================================================
 import datetime as dt
+import pathlib
+from typing import List, Optional, Type, TypeVar
+
 import netCDF4 as nc
 import numpy as np
 import pandas as pd
-import pathlib
-from plotting import default_plot
 from pydantic import BaseModel
-from typing import Optional, List, Type, TypeVar
+
+from plotting import default_plot
 
 PandasDataFrame = TypeVar("pandas.core.frame.DataFrame")
 STRUCTURE_TYPES = ["station", "weirgen"]
@@ -41,11 +43,12 @@ class ExtStructure(BaseModel):
     """Extends the Hydrolib structure datamodel by adding fields for simulated and measured DataFrames.
     Also adds basic plots for quick data inspection.
 
-    Args:
+    Attributes:
         name (str): Name, or identifier of the structure
-        xcoordinate: float
-
-    Returns:
+        xcoordinate (float): x-coordinate of structure
+        ycoordinate (float): y-coordinate of structure
+        simulated (pd.DataFrame): simulated time-series in a dataframe
+        measured (pd.DataFrame): measured time-series in a dataframe
     """
 
     name: str
@@ -55,15 +58,15 @@ class ExtStructure(BaseModel):
     measured: Optional[PandasDataFrame]
 
     def simulated_plot(self, variable: str) -> None:
-        """Specific function to plot the simulated value of 'variable'"""
+        """Function to plot the simulated value of 'variable'"""
         default_plot(dfs=[self.simulated], variable=variable)
 
     def measured_plot(self, variable: str) -> None:
-        """Specific function to plot the measured value of 'variable'"""
+        """function to plot the measured value of 'variable'"""
         default_plot(dfs=[self.measured], variable=variable)
 
     def measured_vs_simulated_plot(self, variable: str) -> None:
-        """Specific function to plot the simulated and measured value of 'variable'"""
+        """function to plot the simulated and measured value of 'variable'"""
         default_plot(
             dfs=[self.simulated, self.measured],
             variable=variable,
@@ -72,9 +75,16 @@ class ExtStructure(BaseModel):
 
 
 class HisResults(object):
-    def __init__(
-        self, inputdir: str, outputdir: str, structure_types: List = None
-    ) -> None:
+    """
+    Class to read results from a D-HYDRO _his.nc file.
+
+    Attributes:
+        __inputdir (str): directory where input file is located
+        __outputdir (str): directory where output (e.g. csv files) are stored
+        structure_types (List): list of structures to load from input file
+    """
+
+    def __init__(self, inputdir: str, outputdir: str, structure_types: List = None) -> None:
         # TODO: let user choose what to execute
         self.__inputdir = inputdir
         self.__outputdir = outputdir
@@ -94,9 +104,7 @@ class HisResults(object):
         self.variable corresponds to self.__ds.variables[variable]"""
         for key in self.__ds.variables.keys():
             if "_id" in key:
-                setattr(
-                    self, key, np.array(nc.chartostring(self.__ds.variables[key][:, :]))
-                )
+                setattr(self, key, np.array(nc.chartostring(self.__ds.variables[key][:, :])))
 
             else:
                 setattr(self, key, self.__ds.variables[key])
@@ -110,25 +118,14 @@ class HisResults(object):
             None
         """
         t_start = (
-            self.__ds.variables["time"]
-            .units.split("since ")[1]
-            .replace("+00:00", "")
-            .strip()
+            self.__ds.variables["time"].units.split("since ")[1].replace("+00:00", "").strip()
         )
-        start_datetime = dt.datetime.fromisoformat(t_start)
-        end_datetime = start_datetime + dt.timedelta(
-            seconds=np.amax(self.__ds.variables["time"][:])
+
+        start_moment = dt.datetime.fromisoformat(t_start)
+        time_array = (
+            np.array(self.__ds.variables["time"][:]) * dt.timedelta(seconds=1) + start_moment
         )
-        delta_time = self.__ds.variables["time"][1] - self.__ds.variables["time"][0]
-        df = (
-            pd.date_range(
-                start_datetime,
-                end_datetime,
-                freq="{}S".format(delta_time),
-            )
-            .to_frame(name="time")
-            .set_index("time")
-        )
+        df = pd.DatetimeIndex(time_array).to_frame(name="time").set_index("time")
         self.timeframe = df
 
     def parse_structures(
@@ -137,6 +134,7 @@ class HisResults(object):
         structure_obj: Type[ExtStructure],
         structure_names_lists: List = None,
     ) -> List:
+
         """General function to parse structures from His files. returns an object in self for all structures of
         structure_type and adds their names to a list for convenience.
 
@@ -167,7 +165,6 @@ class HisResults(object):
                 )
             else:
                 structure_names = structure_names_lists[s_ix]
-
             # Secondly, loop over structure names and create object with simulated values from model results
             # and initiate an empty dataframe for measured values.
             structure_list.append([])
@@ -185,13 +182,16 @@ class HisResults(object):
 
                     if structure_type in self.__ds.variables[variable].coordinates:
                         data[variable] = self.__ds.variables[variable][:, struct_ix]
-
-                xcoordinate = self.__ds.variables[
-                    structure_type + r"_geom_node_coordx"
-                ][struct_ix]
-                ycoordinate = self.__ds.variables[
-                    structure_type + r"_geom_node_coordy"
-                ][struct_ix]
+                try:
+                    xcoordinate = self.__ds.variables[structure_type + r"_geom_node_coordx"][
+                        struct_ix
+                    ]
+                    ycoordinate = self.__ds.variables[structure_type + r"_geom_node_coordy"][
+                        struct_ix
+                    ]
+                except KeyError:
+                    xcoordinate = -999
+                    ycoordinate = -999
 
                 structure = structure_obj(
                     name=name,
@@ -223,22 +223,14 @@ class HisResults(object):
         if struct_list is not None:
             for struct_name in struct_list:
                 structure = getattr(self, struct_name)
-                structure.simulated.to_csv(
-                    output_path + "\\" + struct_name + r"_simulated.csv"
-                )
+                structure.simulated.to_csv(output_path + "\\" + struct_name + r"_simulated.csv")
                 if len(structure.measured.columns.to_list()) > 0:
-                    structure.measured.to_csv(
-                        output_path + "\\" + struct_name + r"_measured.csv"
-                    )
+                    structure.measured.to_csv(output_path + "\\" + struct_name + r"_measured.csv")
         else:
             print(self.__dict__.keys())
             for key in self.__dict__.keys():
                 if hasattr(getattr(self, key), "simulated"):
                     structure = getattr(self, key)
-                    structure.simulated.to_csv(
-                        output_path + "\\" + key + r"_simulated.csv"
-                    )
+                    structure.simulated.to_csv(output_path + "\\" + key + r"_simulated.csv")
                     if len(structure.measured.columns.to_list()) > 0:
-                        structure.measured.to_csv(
-                            output_path + "\\" + key + r"_measured.csv"
-                        )
+                        structure.measured.to_csv(output_path + "\\" + key + r"_measured.csv")

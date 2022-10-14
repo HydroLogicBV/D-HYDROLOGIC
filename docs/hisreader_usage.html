@@ -138,7 +138,7 @@ const thebe_selector_output = ".output, .cell_output"
 <ul class="nav bd-sidenav">
  <li class="toctree-l1 has-children">
   <a class="reference internal" href="inundationtoolbox.html">
-   Usage
+   Usage examples
   </a>
   <input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/>
   <label for="toctree-checkbox-1">
@@ -161,16 +161,6 @@ const thebe_selector_output = ".output, .cell_output"
      Example for reading map-file for example Tol
     </a>
    </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="clm_example_zwolle.html">
-     Example for reading clm-file for example Zwolle
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="fou_example_zwolle.html">
-     Example for reading fou-file for example Zwolle
-    </a>
-   </li>
   </ul>
  </li>
  <li class="toctree-l1">
@@ -181,6 +171,18 @@ const thebe_selector_output = ".output, .cell_output"
  <li class="toctree-l1">
   <a class="reference internal" href="flowmeshreader_api.html">
    Flowmeshreader api-doc
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  HYDROLIB demo
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="HYDROLIB_demo.html">
+   Analysing example Tol
   </a>
  </li>
 </ul>
@@ -449,9 +451,11 @@ Advanced usage allows the direct processing of the results, e.g. to combine simu
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
-<span class="kn">import</span> <span class="nn">sys</span>  
+<span class="kn">import</span> <span class="nn">sys</span> 
+
 <span class="n">currentdir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">())</span>
 <span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">currentdir</span> <span class="o">+</span> <span class="s2">&quot;/HydroLogic_Inundation_toolbox/Readers&quot;</span><span class="p">)</span>
+
 <span class="kn">from</span> <span class="nn">hisreader</span> <span class="kn">import</span> <span class="n">HisResults</span>
 </pre></div>
 </div>

@@ -53,7 +53,7 @@ const thebe_selector_output = ".output, .cell_output"
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Flowmeshreader api-doc" href="flowmeshreader_api.html" />
-    <link rel="prev" title="Example for reading fou-file for example Zwolle" href="fou_example_zwolle.html" />
+    <link rel="prev" title="Example for reading map-file for example Tol" href="map_example_tol.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="None">
     
@@ -138,7 +138,7 @@ const thebe_selector_output = ".output, .cell_output"
 <ul class="current nav bd-sidenav">
  <li class="toctree-l1 has-children">
   <a class="reference internal" href="inundationtoolbox.html">
-   Usage
+   Usage examples
   </a>
   <input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/>
   <label for="toctree-checkbox-1">
@@ -161,16 +161,6 @@ const thebe_selector_output = ".output, .cell_output"
      Example for reading map-file for example Tol
     </a>
    </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="clm_example_zwolle.html">
-     Example for reading clm-file for example Zwolle
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="fou_example_zwolle.html">
-     Example for reading fou-file for example Zwolle
-    </a>
-   </li>
   </ul>
  </li>
  <li class="toctree-l1 current active">
@@ -181,6 +171,18 @@ const thebe_selector_output = ".output, .cell_output"
  <li class="toctree-l1">
   <a class="reference internal" href="flowmeshreader_api.html">
    Flowmeshreader api-doc
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  HYDROLIB demo
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="HYDROLIB_demo.html">
+   Analysing example Tol
   </a>
  </li>
 </ul>
@@ -338,12 +340,46 @@ title="Print to PDF"
     </ul>
   </div>
 </div>
+<label for="__page-toc"
+  class="headerbtn headerbtn-page-toc"
+  
+>
+  
+
+<span class="headerbtn__icon-container">
+  <i class="fas fa-list"></i>
+  </span>
+
+</label>
 
     </div>
 </div>
 
 <!-- Table of contents -->
 <div class="col-md-3 bd-toc show noprint">
+    <div class="tocsection onthispage pt-5 pb-3">
+        <i class="fas fa-list"></i> Contents
+    </div>
+    <nav id="bd-toc-nav" aria-label="Page">
+        <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#arrival-times">
+   Arrival_times
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#rising-speeds">
+   rising_speeds
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#height-of-mrs">
+   height_of_mrs
+  </a>
+ </li>
+</ul>
+
+    </nav>
 </div>
     </div>
     <div class="article row">
@@ -355,6 +391,29 @@ title="Print to PDF"
                 <div id="print-main-content">
                     <div id="jb-print-toc">
                         
+                        <div>
+                            <h2> Contents </h2>
+                        </div>
+                        <nav aria-label="Page">
+                            <ul class="visible nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#arrival-times">
+   Arrival_times
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#rising-speeds">
+   rising_speeds
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#height-of-mrs">
+   height_of_mrs
+  </a>
+ </li>
+</ul>
+
+                        </nav>
                     </div>
                 </div>
             </div>
@@ -364,6 +423,8 @@ title="Print to PDF"
                 
   <section id="inundation-toolbox-api-doc">
 <h1>Inundation toolbox api-doc<a class="headerlink" href="#inundation-toolbox-api-doc" title="Permalink to this headline">#</a></h1>
+<section id="arrival-times">
+<h2>Arrival_times<a class="headerlink" href="#arrival-times" title="Permalink to this headline">#</a></h2>
 <dl class="py function">
 <dt class="sig sig-object py" id="inundation_toolbox.arrival_times">
 <span class="sig-prename descclassname"><span class="pre">inundation_toolbox.</span></span><span class="sig-name descname"><span class="pre">arrival_times</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">map_data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">time_step</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.timedelta64</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">time_unit</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'s'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">arrival_threshold</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">3</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">event_start</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">numpy.timedelta64</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">numpy.ndarray</span></span></span><a class="reference internal" href="_modules/inundation_toolbox.html#arrival_times"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#inundation_toolbox.arrival_times" title="Permalink to this definition">#</a></dt>
@@ -387,6 +448,9 @@ Works with classmaps and maps, as long as arrival_threshold corresponds to water
 </dl>
 </dd></dl>
 
+</section>
+<section id="rising-speeds">
+<h2>rising_speeds<a class="headerlink" href="#rising-speeds" title="Permalink to this headline">#</a></h2>
 <dl class="py function">
 <dt class="sig sig-object py" id="inundation_toolbox.rising_speeds">
 <span class="sig-prename descclassname"><span class="pre">inundation_toolbox.</span></span><span class="sig-name descname"><span class="pre">rising_speeds</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">map_data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">time_step</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.timedelta64</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">time_unit</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'s'</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">numpy.ndarray</span></span></span><a class="reference internal" href="_modules/inundation_toolbox.html#rising_speeds"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#inundation_toolbox.rising_speeds" title="Permalink to this definition">#</a></dt>
@@ -407,6 +471,9 @@ Works with classmaps and maps, as long as arrival_threshold corresponds to water
 </dl>
 </dd></dl>
 
+</section>
+<section id="height-of-mrs">
+<h2>height_of_mrs<a class="headerlink" href="#height-of-mrs" title="Permalink to this headline">#</a></h2>
 <dl class="py function">
 <dt class="sig sig-object py" id="inundation_toolbox.height_of_mrs">
 <span class="sig-prename descclassname"><span class="pre">inundation_toolbox.</span></span><span class="sig-name descname"><span class="pre">height_of_mrs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">map_data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.ndarray</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dh_dt</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">numpy.ndarray</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">numpy.ndarray</span></span></span><a class="reference internal" href="_modules/inundation_toolbox.html#height_of_mrs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#inundation_toolbox.height_of_mrs" title="Permalink to this definition">#</a></dt>
@@ -431,6 +498,7 @@ print(np.sum(max_rs - np.amax(dh_dt, axis=0, keepdims=True)))</p>
 </dl>
 </dd></dl>
 
+</section>
 </section>
 
     <script type="text/x-thebe-config">
@@ -460,11 +528,11 @@ print(np.sum(max_rs - np.amax(dh_dt, axis=0, keepdims=True)))</p>
                 
     <!-- Previous / next buttons -->
 <div class='prev-next-area'>
-    <a class='left-prev' id="prev-link" href="fou_example_zwolle.html" title="previous page">
+    <a class='left-prev' id="prev-link" href="map_example_tol.html" title="previous page">
         <i class="fas fa-angle-left"></i>
         <div class="prev-next-info">
             <p class="prev-next-subtitle">previous</p>
-            <p class="prev-next-title">Example for reading fou-file for example Zwolle</p>
+            <p class="prev-next-title">Example for reading map-file for example Tol</p>
         </div>
     </a>
     <a class='right-next' id="next-link" href="flowmeshreader_api.html" title="next page">

@@ -4,6 +4,7 @@ import numpy as np
 import rasterio
 from netCDF4 import Dataset
 from rasterio.crs import CRS
+from rasterio.errors import CRSError
 from rasterio.transform import from_bounds
 from scipy.interpolate import griddata, interp1d
 from scipy.spatial import KDTree
@@ -118,7 +119,7 @@ def load_map_data(input_file_path: str, variable: str) -> np.ndarray:
 
 
 def load_classmap_data(
-    input_file_path: str, variable: str, method: str = "average"
+    input_file_path: str, variable: str, method: str = "average", ret_map_data=True
 ) -> Tuple[np.ndarray, np.ndarray]:
     """
     Retrieves the selected mesh data (i.e. variable) from the .clm netCDF file at input_file_path
@@ -164,17 +165,19 @@ def load_classmap_data(
     x = np.arange(0, class_bounds.shape[0]) + 1  # classes are 1 indexed
     y[-1] = class_bounds[-1, 0]  # use lower bound for last class, as it goes to infinity
 
-    # 'interpolate' -> we only querry at the points provided so no real interpolation is taking place. Done for convenience
-    f = interp1d(x, y, bounds_error=False, fill_value=(np.nan, np.nan))
-    map_data = f(clm_data)
+    if ret_map_data:
+        # 'interpolate' -> we only querry at the points provided so no real interpolation is taking place. Done for convenience
+        f = interp1d(x, y, bounds_error=False, fill_value=(np.nan, np.nan))
+        map_data = f(clm_data)
 
     # Reshape data using dimensions from netCDF input file (time, spatial)
     map_dim = nc.variables[variable].get_dims()
     map_dims = (map_dim[0].size, map_dim[1].size)
 
-    clm_data = np.reshape(clm_data, map_dims)
-    map_data = np.reshape(map_data, map_dims)
+    if ret_map_data:
+        map_data = np.reshape(map_data, map_dims)
 
+    clm_data = np.reshape(clm_data, map_dims)
     nc.close()  # close file
     return clm_data, map_data
 
@@ -229,6 +232,7 @@ def get_bounds(
         bounds (np.ndarray): outermost coordinates of the raster (west, east, south, north)
         n_cells(np.ndarray): number of cells in x and y direction (x, y)
     """
+
     # Determine span of nodes
     span_x = max(node_x) - min(node_x)
     span_y = max(node_y) - min(node_y)
@@ -338,7 +342,10 @@ def write_tiff(
         width=new_grid_data.shape[0],
         height=new_grid_data.shape[1],
     )
-    raster_crs = CRS.from_epsg(epsg)
+    try:
+        raster_crs = CRS.from_epsg(epsg)
+    except CRSError:
+        raster_crs = CRS.from_epsg(28992)
 
     t_file = rasterio.open(
         output_file_path,

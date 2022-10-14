@@ -52,7 +52,7 @@ const thebe_selector_output = ".output, .cell_output"
     <script async="async" src="_static/sphinx-thebe.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Example for reading clm-file for example Zwolle" href="clm_example_zwolle.html" />
+    <link rel="next" title="Inundation toolbox api-doc" href="inundationtoolbox_api.html" />
     <link rel="prev" title="Example for reading fou-file for example Tol" href="fou_example_tol.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="None">
@@ -138,7 +138,7 @@ const thebe_selector_output = ".output, .cell_output"
 <ul class="current nav bd-sidenav">
  <li class="toctree-l1 current active has-children">
   <a class="reference internal" href="inundationtoolbox.html">
-   Usage
+   Usage examples
   </a>
   <input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/>
   <label for="toctree-checkbox-1">
@@ -161,16 +161,6 @@ const thebe_selector_output = ".output, .cell_output"
      Example for reading map-file for example Tol
     </a>
    </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="clm_example_zwolle.html">
-     Example for reading clm-file for example Zwolle
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="fou_example_zwolle.html">
-     Example for reading fou-file for example Zwolle
-    </a>
-   </li>
   </ul>
  </li>
  <li class="toctree-l1">
@@ -181,6 +171,18 @@ const thebe_selector_output = ".output, .cell_output"
  <li class="toctree-l1">
   <a class="reference internal" href="flowmeshreader_api.html">
    Flowmeshreader api-doc
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  HYDROLIB demo
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="HYDROLIB_demo.html">
+   Analysing example Tol
   </a>
  </li>
 </ul>
@@ -400,8 +402,6 @@ title="Print to PDF"
 <span class="kn">import</span> <span class="nn">sys</span>
 <span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
 
-<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
-
 <span class="n">currentdir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">dirname</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">getcwd</span><span class="p">())</span>
 <span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">currentdir</span> <span class="o">+</span> <span class="sa">r</span><span class="s2">&quot;/HydroLogic_Inundation_toolbox&quot;</span><span class="p">)</span>
 <span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">currentdir</span> <span class="o">+</span> <span class="sa">r</span><span class="s2">&quot;/HydroLogic_Inundation_toolbox/Readers&quot;</span><span class="p">)</span>
@@ -417,7 +417,7 @@ title="Print to PDF"
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># set paths</span>
 <span class="n">input_file_path</span> <span class="o">=</span> <span class="n">currentdir</span> <span class="o">+</span> <span class="sa">r</span><span class="s2">&quot;/HydroLogic_Inundation_toolbox/Data/Tol/input/1PT10_map.nc&quot;</span>
 <span class="n">output_file_path</span> <span class="o">=</span> <span class="n">currentdir</span> <span class="o">+</span> <span class="sa">r</span><span class="s2">&quot;/HydroLogic_Inundation_toolbox/Data/Tol/output/final_waterdepth.tiff&quot;</span>
-<span class="n">Path</span><span class="p">(</span><span class="n">currentdir</span> <span class="o">+</span> <span class="sa">r</span><span class="s2">&quot;/HydroLogic_Inundation_toolbox/Data/Tol/output).mkdir(exist_ok=True)</span>
+<span class="n">Path</span><span class="p">(</span><span class="n">currentdir</span> <span class="o">+</span> <span class="sa">r</span><span class="s2">&quot;/HydroLogic_Inundation_toolbox/Data/Tol/output&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -514,10 +514,10 @@ title="Print to PDF"
             <p class="prev-next-title">Example for reading fou-file for example Tol</p>
         </div>
     </a>
-    <a class='right-next' id="next-link" href="clm_example_zwolle.html" title="next page">
+    <a class='right-next' id="next-link" href="inundationtoolbox_api.html" title="next page">
     <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Example for reading clm-file for example Zwolle</p>
+        <p class="prev-next-title">Inundation toolbox api-doc</p>
     </div>
     <i class="fas fa-angle-right"></i>
     </a>

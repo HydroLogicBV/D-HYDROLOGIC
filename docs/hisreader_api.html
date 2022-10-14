@@ -52,7 +52,7 @@ const thebe_selector_output = ".output, .cell_output"
     <script async="async" src="_static/sphinx-thebe.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Usage" href="inundationtoolbox.html" />
+    <link rel="next" title="Usage examples" href="inundationtoolbox.html" />
     <link rel="prev" title="Usage" href="hisreader_usage.html" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="docsearch:language" content="None">
@@ -138,7 +138,7 @@ const thebe_selector_output = ".output, .cell_output"
 <ul class="nav bd-sidenav">
  <li class="toctree-l1 has-children">
   <a class="reference internal" href="inundationtoolbox.html">
-   Usage
+   Usage examples
   </a>
   <input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/>
   <label for="toctree-checkbox-1">
@@ -161,16 +161,6 @@ const thebe_selector_output = ".output, .cell_output"
      Example for reading map-file for example Tol
     </a>
    </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="clm_example_zwolle.html">
-     Example for reading clm-file for example Zwolle
-    </a>
-   </li>
-   <li class="toctree-l2">
-    <a class="reference internal" href="fou_example_zwolle.html">
-     Example for reading fou-file for example Zwolle
-    </a>
-   </li>
   </ul>
  </li>
  <li class="toctree-l1">
@@ -181,6 +171,18 @@ const thebe_selector_output = ".output, .cell_output"
  <li class="toctree-l1">
   <a class="reference internal" href="flowmeshreader_api.html">
    Flowmeshreader api-doc
+  </a>
+ </li>
+</ul>
+<p aria-level="2" class="caption" role="heading">
+ <span class="caption-text">
+  HYDROLIB demo
+ </span>
+</p>
+<ul class="nav bd-sidenav">
+ <li class="toctree-l1">
+  <a class="reference internal" href="HYDROLIB_demo.html">
+   Analysing example Tol
   </a>
  </li>
 </ul>
@@ -365,11 +367,6 @@ title="Print to PDF"
    Hisreader
   </a>
  </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#plot-function">
-   Plot function
-  </a>
- </li>
 </ul>
 
     </nav>
@@ -394,11 +391,6 @@ title="Print to PDF"
    Hisreader
   </a>
  </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#plot-function">
-   Plot function
-  </a>
- </li>
 </ul>
 
                         </nav>
@@ -416,43 +408,89 @@ title="Print to PDF"
 <dl class="py class">
 <dt class="sig sig-object py" id="hisreader.HisResults">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">hisreader.</span></span><span class="sig-name descname"><span class="pre">HisResults</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">inputdir</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">outputdir</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">structure_types</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">List</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/hisreader.html#HisResults"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#hisreader.HisResults" title="Permalink to this definition">#</a></dt>
-<dd></dd></dl>
-
-<dl class="py class">
-<dt class="sig sig-object py" id="hisreader.ExtStructure">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">hisreader.</span></span><span class="sig-name descname"><span class="pre">ExtStructure</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xcoordinate</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ycoordinate</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">simulated</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">hisreader.pandas.core.frame.DataFrame</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">measured</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">hisreader.pandas.core.frame.DataFrame</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/hisreader.html#ExtStructure"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#hisreader.ExtStructure" title="Permalink to this definition">#</a></dt>
-<dd><p>Extends the Hydrolib structure datamodel by adding fields for simulated and measured DataFrames.
-Also adds basic plots for quick data inspection.</p>
+<dd><p>Class to read results from a D-HYDRO _his.nc file.</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="hisreader.HisResults.__inputdir">
+<span class="sig-name descname"><span class="pre">__inputdir</span></span><a class="headerlink" href="#hisreader.HisResults.__inputdir" title="Permalink to this definition">#</a></dt>
+<dd><p>directory where input file is located</p>
 <dl class="field-list simple">
-<dt class="field-odd">Parameters</dt>
-<dd class="field-odd"><ul class="simple">
-<li><p><strong>name</strong> (<em>str</em>) – Name, or identifier of the structure</p></li>
-<li><p><strong>xcoordinate</strong> – float</p></li>
-</ul>
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>str</p>
 </dd>
 </dl>
-<p>Returns:</p>
 </dd></dl>
 
-</section>
-<section id="plot-function">
-<h2>Plot function<a class="headerlink" href="#plot-function" title="Permalink to this headline">#</a></h2>
-<dl class="py function">
-<dt class="sig sig-object py" id="plotting.default_plot">
-<span class="sig-prename descclassname"><span class="pre">plotting.</span></span><span class="sig-name descname"><span class="pre">default_plot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dfs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">variable</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">labels</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">List</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/plotting.html#default_plot"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#plotting.default_plot" title="Permalink to this definition">#</a></dt>
-<dd><p>Basic plot function that takes a number of DataFrames and plots the ‘variable’ columns in one figure</p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="hisreader.HisResults.__outputdir">
+<span class="sig-name descname"><span class="pre">__outputdir</span></span><a class="headerlink" href="#hisreader.HisResults.__outputdir" title="Permalink to this definition">#</a></dt>
+<dd><p>directory where output (e.g. csv files) are stored</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>str</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="hisreader.HisResults.structure_types">
+<span class="sig-name descname"><span class="pre">structure_types</span></span><a class="headerlink" href="#hisreader.HisResults.structure_types" title="Permalink to this definition">#</a></dt>
+<dd><p>list of structures to load from input file</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>List</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="hisreader.HisResults.parse_structures">
+<span class="sig-name descname"><span class="pre">parse_structures</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">structure_types</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">structure_obj</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Type</span><span class="p"><span class="pre">[</span></span><span class="pre">hisreader.ExtStructure</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">structure_names_lists</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">List</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span></span></span><a class="reference internal" href="_modules/hisreader.html#HisResults.parse_structures"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#hisreader.HisResults.parse_structures" title="Permalink to this definition">#</a></dt>
+<dd><p>General function to parse structures from His files. returns an object in self for all structures of
+structure_type and adds their names to a list for convenience.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>dfs</strong> (<em>List</em>) – list of dataframes (can be 1) that are to be plotted. Should all contain a column with variable</p></li>
-<li><p><strong>variable</strong> (<em>str</em>) – name of variable and column to be selected from dataframes</p></li>
-<li><p><strong>labels</strong> (<em>List</em>) – labels of plotted data frames, e.g. [“Measured”, “Simulated”]</p></li>
+<li><p><strong>structure_types</strong> (<em>List</em>) – list containing the structure types that are to be read from the model results</p></li>
+<li><p><strong>structure_obj</strong> (<em>ExtStructure</em>) – object used to organize the results per structure</p></li>
+<li><p><strong>structure_names_lists</strong> (<em>List</em>) – list containing exactly one list per structure type.
+These lists contain the structure names to be loaded.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>list containing a list per structure type with the loaded structures per type.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>structure_list (List)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="hisreader.HisResults.read_all_netcdf_variables">
+<span class="sig-name descname"><span class="pre">read_all_netcdf_variables</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/hisreader.html#HisResults.read_all_netcdf_variables"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#hisreader.HisResults.read_all_netcdf_variables" title="Permalink to this definition">#</a></dt>
+<dd><p>User function to create handles for all variables of the NetCDF file
+self.variable corresponds to self.__ds.variables[variable]</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="hisreader.HisResults.write_csv">
+<span class="sig-name descname"><span class="pre">write_csv</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">output_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">struct_list</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Optional</span><span class="p"><span class="pre">[</span></span><span class="pre">List</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/hisreader.html#HisResults.write_csv"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#hisreader.HisResults.write_csv" title="Permalink to this definition">#</a></dt>
+<dd><p>Writes csvs in output_path for all structures in struct_list,
+or for all structures that have been parsed.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>output_path</strong> (<em>str</em>) – the output path to which the csvs are written</p></li>
+<li><p><strong>struct_list</strong> (<em>List</em>) – list containing the names of the structures to be written to files
+if struct_list is not provided, all structures are written to files</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns</dt>
 <dd class="field-even"><p>None</p>
 </dd>
 </dl>
+</dd></dl>
+
 </dd></dl>
 
 </section>
@@ -495,7 +533,7 @@ Also adds basic plots for quick data inspection.</p>
     <a class='right-next' id="next-link" href="inundationtoolbox.html" title="next page">
     <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Usage</p>
+        <p class="prev-next-title">Usage examples</p>
     </div>
     <i class="fas fa-angle-right"></i>
     </a>
