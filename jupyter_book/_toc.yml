@@ -21,4 +21,4 @@ parts:
     - file: plotting_api
   - caption: HYDROLIB demo
     chapters:
-    - file: HYDROLIB_DEMO
+    - file: HYDROLIB_demo
